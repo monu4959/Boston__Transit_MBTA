@@ -53,13 +53,26 @@ def _result(plan, problems, new_plan, explanation, sources, guardrails):
             "guardrails": guardrails}
 
 
+def _ids(conn, names_list):
+    """Convert station names (e.g. 'Copley') to station IDs for the Planner's avoid list."""
+    if not names_list:
+        return []
+    if planner_module._cache is None:
+        planner_module._cache = planner_module.build_graph(conn)
+    lookup = {n.lower(): sid for sid, n in planner_module._cache[1].items()}
+    return [lookup[n.lower()] for n in names_list if n.lower() in lookup]
+
+
 # ---------- Replanner ----------
 
-def _replanner(conn, origin_name, dest_name, mbta_key, max_tries=3, transfer_penalty=None):
+def _replanner(conn, origin_name, dest_name, mbta_key, max_tries=3,
+               transfer_penalty=None, avoid_names=None):
     guardrails = []
+    start_avoid = _ids(conn, avoid_names)      # stations the rider asked to avoid
 
-    # 1. Plan the normal route
-    plan = planner_agent(conn, origin_name, dest_name, transfer_penalty=transfer_penalty)
+    # 1. Plan the normal route (respecting the rider's preferences)
+    plan = planner_agent(conn, origin_name, dest_name, avoid=start_avoid,
+                         transfer_penalty=transfer_penalty)
     if not plan["ok"]:
         return {"ok": False, "reason": plan["reason"], "guardrails": guardrails}
 
@@ -78,10 +91,11 @@ def _replanner(conn, origin_name, dest_name, mbta_key, max_tries=3, transfer_pen
     problems = check["blocking"]
 
     # 2. Reroute around blocked stations, re-checking each new route
-    avoid, new_plan, found = [], None, False
+    avoid, new_plan, found = list(start_avoid), None, False
     for _ in range(max_tries):
         avoid += [p["station_id"] for p in check["blocking"]]
-        new_plan = planner_agent(conn, origin_name, dest_name, avoid=avoid, transfer_penalty=transfer_penalty)
+        new_plan = planner_agent(conn, origin_name, dest_name, avoid=avoid,
+                                 transfer_penalty=transfer_penalty)
         if not new_plan["ok"]:
             break
         try:
@@ -164,10 +178,12 @@ Instructions:
                             + ", ".join(sorted(extra)) + "). Follow the route shown above.")
 
     return _result(plan, problems, final_plan, explanation, sources, guardrails)
-
+               
+               
 def replanner_agent(conn, origin_name, dest_name, mbta_key, max_tries=3,
-                    log_source="notebook", transfer_penalty=None):
-    """Run the Replanner and log the result to Snowflake."""
-    result = _replanner(conn, origin_name, dest_name, mbta_key, max_tries, transfer_penalty)
-    log_trip(conn, origin_name, dest_name, result, source=log_source)
-    return result
+                       log_source="notebook", transfer_penalty=None, avoid_names=None):
+       """Run the Replanner and log the result to Snowflake."""
+       result = _replanner(conn, origin_name, dest_name, mbta_key, max_tries,
+                           transfer_penalty, avoid_names)
+       log_trip(conn, origin_name, dest_name, result, source=log_source)
+       return result

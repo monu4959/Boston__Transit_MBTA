@@ -20,7 +20,9 @@ if APP_PASSWORD and not st.session_state.get("authed"):
     st.stop()
 
 # ---------- secrets check ----------
-missing = [k for k in ("SNOWFLAKE_PASSWORD", "MBTA_KEY", "LLM_API_KEY") if not os.getenv(k)]
+missing = [k for k in ("SNOWFLAKE_ACCOUNT", "SNOWFLAKE_USER", "MBTA_KEY", "LLM_API_KEY") if not os.getenv(k)]
+if not any(os.getenv(k) for k in ("SNOWFLAKE_PRIVATE_KEY", "SNOWFLAKE_PRIVATE_KEY_FILE", "SNOWFLAKE_PASSWORD")):
+    missing.append("SNOWFLAKE_PRIVATE_KEY_FILE")
 if missing:
     status.empty()
     st.error("Missing secrets: " + ", ".join(missing))
@@ -103,9 +105,10 @@ if st.button("Understand and plan", use_container_width=True) and nl_text.strip(
         with st.spinner("Planning your route and checking live elevator outages..."):
             st.session_state.result = replanner_agent(
                 conn, parsed["origin"], parsed["destination"], MBTA_KEY, log_source="app-nl",
-                transfer_penalty=penalty_for(parsed))
+                transfer_penalty=penalty_for(parsed), avoid_names=parsed["avoid"])
             st.session_state.od = (parsed["origin"], parsed["destination"])
             st.session_state.pop("trip", None)
+        st.rerun()
 
 p = st.session_state.get("parsed")
 if p:

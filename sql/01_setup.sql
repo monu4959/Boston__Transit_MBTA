@@ -1,0 +1,58 @@
+-- TransitWise Boston: one-time Snowflake account setup.
+-- Run in a Snowsight SQL worksheet with "Run All". Safe to re-run.
+--
+-- Before running, create a key pair for the service user (Git Bash):
+--   mkdir -p ~/.snowflake && cd ~/.snowflake
+--   openssl genrsa 2048 | openssl pkcs8 -topk8 -inform PEM -out transitwise_rsa_key.p8 -nocrypt
+--   openssl rsa -in transitwise_rsa_key.p8 -pubout -out transitwise_rsa_key.pub
+-- Paste the text between the BEGIN/END lines of the .pub file into RSA_PUBLIC_KEY below.
+-- Never commit the .p8 file.
+--
+-- After running: fill in .env (see README), then run  py -3.12 pipeline/build_db.py
+
+USE ROLE ACCOUNTADMIN;
+
+-- 1. Compute: smallest size, sleeps after 60 s idle, with a monthly credit cap
+CREATE WAREHOUSE IF NOT EXISTS COMPUTE_WH
+  WAREHOUSE_SIZE = XSMALL AUTO_SUSPEND = 60 AUTO_RESUME = TRUE INITIALLY_SUSPENDED = TRUE;
+ALTER WAREHOUSE COMPUTE_WH SET WAREHOUSE_SIZE = XSMALL AUTO_SUSPEND = 60;
+CREATE OR REPLACE RESOURCE MONITOR TW_MONITOR WITH CREDIT_QUOTA = 30
+  FREQUENCY = MONTHLY START_TIMESTAMP = IMMEDIATELY
+  TRIGGERS ON 80 PERCENT DO NOTIFY ON 100 PERCENT DO SUSPEND;
+ALTER WAREHOUSE COMPUTE_WH SET RESOURCE_MONITOR = TW_MONITOR;
+
+-- 2. One role that owns everything in the project
+CREATE ROLE IF NOT EXISTS TRANSITWISE_APP;
+GRANT ROLE TRANSITWISE_APP TO ROLE SYSADMIN;
+SET me = '"' || CURRENT_USER() || '"';                   -- quoted, so the exact case is kept
+GRANT ROLE TRANSITWISE_APP TO USER IDENTIFIER($me);      -- so you can browse the tables too
+GRANT USAGE ON WAREHOUSE COMPUTE_WH TO ROLE TRANSITWISE_APP;
+GRANT CREATE DATABASE ON ACCOUNT TO ROLE TRANSITWISE_APP;
+
+-- 3. Service user for Python, the app and GitHub Actions (key-pair login, no password)
+CREATE USER IF NOT EXISTS TRANSITWISE_SVC
+  TYPE = SERVICE
+  DEFAULT_ROLE = TRANSITWISE_APP
+  DEFAULT_WAREHOUSE = COMPUTE_WH
+  RSA_PUBLIC_KEY = 'PASTE_PUBLIC_KEY_BODY_HERE';
+GRANT ROLE TRANSITWISE_APP TO USER TRANSITWISE_SVC;
+
+-- 4. Database and schemas
+USE ROLE TRANSITWISE_APP;
+CREATE DATABASE IF NOT EXISTS TRANSITWISE_DB;
+CREATE SCHEMA IF NOT EXISTS TRANSITWISE_DB.RAW;
+CREATE SCHEMA IF NOT EXISTS TRANSITWISE_DB.CLEAN;
+CREATE SCHEMA IF NOT EXISTS TRANSITWISE_DB.RAG;
+CREATE SCHEMA IF NOT EXISTS TRANSITWISE_DB.LOGS;
+
+-- 5. Tables the code expects to exist (RAW tables are created by pipeline/build_db.py)
+CREATE TABLE IF NOT EXISTS TRANSITWISE_DB.RAG.POLICY_CHUNKS (
+  SOURCE STRING, CHUNK_NO INT, CHUNK STRING, EMBEDDING VECTOR(FLOAT, 384));
+
+CREATE TABLE IF NOT EXISTS TRANSITWISE_DB.LOGS.AGENT_LOG (
+  LOGGED_AT TIMESTAMP_NTZ DEFAULT SYSDATE(),             -- UTC, same as LOADED_AT in RAW
+  SOURCE STRING, ORIGIN STRING, DESTINATION STRING,
+  OK BOOLEAN, SAFE BOOLEAN, REROUTED BOOLEAN,
+  ORIGINAL_ROUTE STRING, NEW_ROUTE STRING, MINUTES NUMBER,
+  BLOCKING_STATIONS VARIANT, GUARDRAILS VARIANT, SOURCES VARIANT,
+  REASON STRING, EXPLANATION STRING);

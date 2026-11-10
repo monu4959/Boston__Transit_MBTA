@@ -220,3 +220,7 @@ __marimo__/
 .streamlit/secrets.toml
 .env
 venv/
+
+# Snowflake private keys
+*.p8
+*.pem

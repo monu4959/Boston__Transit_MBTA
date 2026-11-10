@@ -66,5 +66,9 @@ def search_mbta_policy(question: str, k: int = 4) -> list[dict]:
 
 
 if __name__ == "__main__":
+    # Load the embedding model before serving: loading it lazily inside a tool call
+    # (which runs in a worker thread) hangs the server on Windows.
+    from agents.retriever import get_model
+    get_model()
     mcp.run()
     #py -3.12 mcp_server.py
