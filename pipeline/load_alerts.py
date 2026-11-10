@@ -29,7 +29,7 @@ def clean_mbta_key(value):
         return None
     m = re.search(r"(?<![0-9a-fA-F])[0-9a-fA-F]{32}(?![0-9a-fA-F])", value)
     if not m:
-        print("Warning: MBTA_API_KEY is not a 32-character key; calling the MBTA API without it.")
+        print("Warning: the MBTA key is not a 32-character key; calling the MBTA API without it.")
         return None
     return m.group(0)
 
@@ -73,7 +73,7 @@ def fetch_alerts(mbta_key):
 
 def load_alerts_snapshot(conn, mbta_key=None):
     """Load: append this snapshot. Returns the number of rows written."""
-    alerts = fetch_alerts(mbta_key or clean_mbta_key(os.getenv("MBTA_API_KEY") or os.getenv("MBTA_KEY")))
+    alerts = fetch_alerts(mbta_key or clean_mbta_key(os.getenv("MBTA_KEY") or os.getenv("MBTA_API_KEY")))
     success, _, rows_loaded, _ = write_pandas(
         conn, alerts, "ALERTS_HISTORY",
         database="TRANSITWISE_DB", schema="RAW",
@@ -88,7 +88,8 @@ def load_alerts_snapshot(conn, mbta_key=None):
 if __name__ == "__main__":
     # Which settings this run can see (names only, never values) -- helps debug CI secrets.
     names = ["SNOWFLAKE_ACCOUNT", "SNOWFLAKE_USER", "SNOWFLAKE_ROLE", "SNOWFLAKE_WAREHOUSE",
-             "SNOWFLAKE_DATABASE", "SNOWFLAKE_PRIVATE_KEY", "SNOWFLAKE_PRIVATE_KEY_FILE", "MBTA_API_KEY"]
+             "SNOWFLAKE_DATABASE", "SNOWFLAKE_PRIVATE_KEY", "SNOWFLAKE_PRIVATE_KEY_FILE", "MBTA_KEY",
+             "MBTA_API_KEY"]
     print("Settings present:", ", ".join(n for n in names if (os.getenv(n) or "").strip()) or "none")
     conn = get_connection()
     try:

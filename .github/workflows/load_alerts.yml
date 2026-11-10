@@ -18,7 +18,7 @@ jobs:
       - run: pip install -r pipeline/requirements.txt
       - run: python pipeline/load_alerts.py
         env:
-          MBTA_API_KEY: ${{ secrets.MBTA_API_KEY }}
+          MBTA_KEY: ${{ secrets.MBTA_API_KEY }}
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}

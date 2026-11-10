@@ -8,3 +8,4 @@ anthropic
 openai
 streamlit
 mcp<2
+pytest

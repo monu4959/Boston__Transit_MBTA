@@ -1,0 +1,4846 @@
+{
+ "captured": "2026-11-10",
+ "alerts": [
+  {
+   "id": "1001820",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "State Escalator 6 (Oak Grove platform to Old State House lobby) is unavailable.",
+    "informed_entity": [
+     {
+      "stop": "place-state",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "6",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70023",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "6",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-state-devonshire",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "6",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-state-state",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "6",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-state",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "6",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1035010",
+   "attributes": {
+    "effect": "ACCESS_ISSUE",
+    "header": "The Central Avenue mini-high platform (Ashmont side) is out of service. ",
+    "informed_entity": [
+     {
+      "stop": "70270",
+      "route": "Mattapan",
+      "route_type": 0,
+      "facility": "subplat-cenav-1",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "door-cenav-ashmont",
+      "route": "Mattapan",
+      "route_type": 0,
+      "facility": "subplat-cenav-1",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "door-cenav-mattapan",
+      "route": "Mattapan",
+      "route_type": 0,
+      "facility": "subplat-cenav-1",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-cenav",
+      "route": "Mattapan",
+      "route_type": 0,
+      "facility": "subplat-cenav-1",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1038229",
+   "attributes": {
+    "effect": "ELEVATOR_CLOSURE",
+    "header": "Back Bay Elevator 854 (Commuter Rail track 2 to lobby) is unavailable.",
+    "informed_entity": [
+     {
+      "stop": "place-bbsta",
+      "route": "39",
+      "route_type": 3,
+      "facility": "854",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2276",
+      "route": "CR-Franklin",
+      "route_type": 2,
+      "facility": "854",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2276-02",
+      "route": "CR-Franklin",
+      "route_type": 2,
+      "facility": "854",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-bbsta",
+      "route": "CR-Franklin",
+      "route_type": 2,
+      "facility": "854",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-bbsta",
+      "route": "CR-Needham",
+      "route_type": 2,
+      "facility": "854",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2276",
+      "route": "CR-Providence",
+      "route_type": 2,
+      "facility": "854",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2276-02",
+      "route": "CR-Providence",
+      "route_type": 2,
+      "facility": "854",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-bbsta",
+      "route": "CR-Providence",
+      "route_type": 2,
+      "facility": "854",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-bbsta",
+      "route": "CR-Worcester",
+      "route_type": 2,
+      "facility": "854",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-bbsta",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "854",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1009804",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Alewife Escalator 351 (Main concourse to platform) is unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "place-alfcl",
+      "route": "350",
+      "route_type": 3,
+      "facility": "351",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-alfcl",
+      "route": "62",
+      "route_type": 3,
+      "facility": "351",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-alfcl",
+      "route": "67",
+      "route_type": 3,
+      "facility": "351",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-alfcl",
+      "route": "76",
+      "route_type": 3,
+      "facility": "351",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70061",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "351",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "Alewife-01",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "351",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "Alewife-02",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "351",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-alfcl",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "351",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1031519",
+   "attributes": {
+    "effect": "ELEVATOR_CLOSURE",
+    "header": "State Elevator 803 (Forest Hills platform to Washington Street, Milk Street) is unavailable due to maintenance through Tuesday, December 1. ",
+    "informed_entity": [
+     {
+      "stop": "70022",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "70023",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "70041",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "70042",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "door-state-meeting",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-state",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "70022",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "70023",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "70041",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "70042",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "door-state-meeting",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-state",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "803",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1026060",
+   "attributes": {
+    "effect": "STATION_CLOSURE",
+    "header": "Green Line E Branch: Symphony station is closed for major accessibility upgrades. Riders can use Prudential or Northeastern to access E Branch service. The station is expected to reopen in 2029.",
+    "informed_entity": [
+     {
+      "stop": "70241",
+      "route": "Green-E",
+      "route_type": 0,
+      "activities": [
+       "BOARD",
+       "EXIT"
+      ]
+     },
+     {
+      "stop": "70242",
+      "route": "Green-E",
+      "route_type": 0,
+      "activities": [
+       "BOARD",
+       "EXIT"
+      ]
+     },
+     {
+      "stop": "place-symcl",
+      "route": "Green-E",
+      "route_type": 0,
+      "activities": [
+       "BOARD",
+       "EXIT"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1001819",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Oak Grove Escalator 105 (Commuter Rail platform to unpaid lobby) is unavailable.",
+    "informed_entity": [
+     {
+      "stop": "place-ogmnl",
+      "route": "131",
+      "route_type": 3,
+      "facility": "105",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-ogmnl",
+      "route": "137",
+      "route_type": 3,
+      "facility": "105",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "WR-0053-S",
+      "route": "CR-Haverhill",
+      "route_type": 2,
+      "facility": "105",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-ogmnl",
+      "route": "CR-Haverhill",
+      "route_type": 2,
+      "facility": "105",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-ogmnl",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "105",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1039823",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Maverick Escalator 429 (Lewis Mall to unpaid lobby) is unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "place-mvbcl",
+      "route": "114",
+      "route_type": 3,
+      "facility": "429",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mvbcl",
+      "route": "116",
+      "route_type": 3,
+      "facility": "429",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mvbcl",
+      "route": "120",
+      "route_type": 3,
+      "facility": "429",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mvbcl",
+      "route": "121",
+      "route_type": 3,
+      "facility": "429",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70045",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "429",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70046",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "429",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-mvbcl-lewis",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "429",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mvbcl",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "429",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1001817",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Bowdoin Escalator 125 (Lobby to street) is unavailable until further notice, pending replacement.",
+    "informed_entity": [
+     {
+      "stop": "70038",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "125",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70838",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "125",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-bomnl-main",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "125",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-bomnl",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "125",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1041230",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Ashmont Escalator 438 (Ashmont platform to Mattapan Line, busway) is unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "place-asmnl",
+      "route": "15",
+      "route_type": 3,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "18",
+      "route_type": 3,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "21",
+      "route_type": 3,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "215",
+      "route_type": 3,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "217",
+      "route_type": 3,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "22",
+      "route_type": 3,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "23",
+      "route_type": 3,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "24",
+      "route_type": 3,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "240",
+      "route_type": 3,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "26",
+      "route_type": 3,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "Mattapan",
+      "route_type": 0,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70093",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-asmnl-matpn",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-asmnl",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "438",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1031518",
+   "attributes": {
+    "effect": "ELEVATOR_CLOSURE",
+    "header": "Downtown Crossing Elevator 869 (Alewife platform to Summer Street Concourse) is unavailable due to maintenance through Tuesday, December 1.",
+    "informed_entity": [
+     {
+      "stop": "place-dwnxg",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "869",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "70078",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "869",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "door-dwnxg-101arch",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "869",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "door-dwnxg-macys",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "869",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "door-dwnxg-rochebros",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "869",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "door-dwnxg-summer",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "869",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "door-dwnxg-summereast",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "869",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-dwnxg",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "869",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1042184",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Downtown Crossing Escalator 364 (Oak Grove platform to Franklin Street) is unavailable.",
+    "informed_entity": [
+     {
+      "stop": "70020",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70021",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70077",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70078",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-dwnxg-franklin",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-dwnxg",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70020",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70021",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70077",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70078",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-dwnxg-franklin",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-dwnxg",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "364",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1042373",
+   "attributes": {
+    "effect": "ELEVATOR_CLOSURE",
+    "header": "Revere Beach Elevator 885 (Wonderland platform to lobby) is unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "70058",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "885",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "door-rbmnl-main",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "885",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-rbmnl",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "885",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1001821",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Malden Center Escalator 312 (Street level to Commuter Rail platform) unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "place-mlmnl",
+      "route": "101",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "104",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "105",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "106",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "108",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "131",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "132",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "137",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "411",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "430",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "97",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "99",
+      "route_type": 3,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "WR-0045-S",
+      "route": "CR-Haverhill",
+      "route_type": 2,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "CR-Haverhill",
+      "route_type": 2,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-mlmnl",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "312",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1044436",
+   "attributes": {
+    "effect": "ELEVATOR_CLOSURE",
+    "header": "Forest Hills Elevator 841 (Commuter Rail platform to lobby) is unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "place-forhl",
+      "route": "16",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "21",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "30",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "31",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "32",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "34",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "34E",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "35",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "36",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "37",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "38",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "39",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "40",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "42",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "50",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "51",
+      "route_type": 3,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2237",
+      "route": "CR-Franklin",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2237-03",
+      "route": "CR-Franklin",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2237-05",
+      "route": "CR-Franklin",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "CR-Franklin",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2237",
+      "route": "CR-Needham",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2237-03",
+      "route": "CR-Needham",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2237-05",
+      "route": "CR-Needham",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "CR-Needham",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2237",
+      "route": "CR-Providence",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2237-03",
+      "route": "CR-Providence",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "NEC-2237-05",
+      "route": "CR-Providence",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "CR-Providence",
+      "route_type": 2,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     },
+     {
+      "stop": "place-forhl",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "841",
+      "activities": [
+       "USING_WHEELCHAIR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1001818",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Andrew Escalator 123 (Ashmont/Braintree platform to busway) is unavailable until further notice, pending replacement.",
+    "informed_entity": [
+     {
+      "stop": "place-andrw",
+      "route": "10",
+      "route_type": 3,
+      "facility": "123",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "16",
+      "route_type": 3,
+      "facility": "123",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "17",
+      "route_type": 3,
+      "facility": "123",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "171",
+      "route_type": 3,
+      "facility": "123",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "18",
+      "route_type": 3,
+      "facility": "123",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "708",
+      "route_type": 3,
+      "facility": "123",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "9",
+      "route_type": 3,
+      "facility": "123",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70083",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "123",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-andrw-busway",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "123",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "123",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1040924",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Charles/MGH Escalator 426 (Lobby to Alewife platform) is unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "70074",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "426",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-chmnl-main",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "426",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-chmnl",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "426",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1009729",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Alewife Escalator 353 (Main concourse to busway) is unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "place-alfcl",
+      "route": "350",
+      "route_type": 3,
+      "facility": "353",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-alfcl",
+      "route": "62",
+      "route_type": 3,
+      "facility": "353",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-alfcl",
+      "route": "67",
+      "route_type": 3,
+      "facility": "353",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-alfcl",
+      "route": "76",
+      "route_type": 3,
+      "facility": "353",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70061",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "353",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "Alewife-01",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "353",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "Alewife-02",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "353",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "node-alfcl-buswayplatform-middle",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "353",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-alfcl",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "353",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1039322",
+   "attributes": {
+    "effect": "SUSPENSION",
+    "header": "Green Line: No trains between North Station & Babcock St (B), Cleveland Circle (C), Kenmore (D), & Heath St (E), through Nov. 15. Use buses between Babcock, Cleveland Cir., Kenmore, Heath St & Copley/Back Bay. Use Orange Line btw North Station & Back Bay.",
+    "informed_entity": [
+     {
+      "stop": "170141",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70145",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70147",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70149",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70153",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70155",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70157",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70159",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70196",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "71151",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-amory",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-armnl",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-bland",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-boyls",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-bucen",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-buest",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-coecl",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-hymnl",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-kencl",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-pktrm",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70151",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70153",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70155",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70157",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70159",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70197",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70211",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70213",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70215",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70217",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70219",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70223",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70225",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70227",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70229",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70231",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70233",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70235",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-armnl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-bcnwa",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-bndhl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-boyls",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-coecl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-cool",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-denrd",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-engav",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-fbkst",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-hwsst",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-hymnl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-kencl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-kntst",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-pktrm",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-smary",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-stpul",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-sumav",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-tapst",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70153",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70155",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70157",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70159",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70198",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70202",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70204",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-armnl",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-boyls",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-coecl",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-gover",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-haecl",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-hymnl",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-pktrm",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70155",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70157",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70159",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70199",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70202",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70204",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70239",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70241",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70243",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70245",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70247",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70249",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70251",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70253",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70255",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70257",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-armnl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-bckhl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-boyls",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-brmnl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-coecl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-fenwd",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-gover",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-haecl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-lngmd",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-mfa",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-mispk",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-nuniv",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-pktrm",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-prmnl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-rvrwy",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-symcl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "170140",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70144",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70146",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70148",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70152",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70154",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70156",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70158",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70200",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "71150",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-amory",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-armnl",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-bland",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-boyls",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-bucen",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-buest",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-coecl",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-hymnl",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-kencl",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-pktrm",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70150",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70152",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70154",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70156",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70158",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70200",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70212",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70214",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70216",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70218",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70220",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70224",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70226",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70228",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70230",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70232",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70234",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70236",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-armnl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-bcnwa",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-bndhl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-boyls",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-coecl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-cool",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-denrd",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-engav",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-fbkst",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-hwsst",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-hymnl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-kencl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-kntst",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-pktrm",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-smary",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-stpul",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-sumav",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-tapst",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70152",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70154",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70156",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70158",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70200",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70201",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70203",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-armnl",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-boyls",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-coecl",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-gover",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-haecl",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-hymnl",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-pktrm",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70154",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70156",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70158",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70200",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70201",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70203",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70240",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70242",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70244",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70246",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70248",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70250",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70252",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70254",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70256",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70258",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-armnl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-bckhl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-boyls",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-brmnl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-coecl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-fenwd",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-gover",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-haecl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-lngmd",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-mfa",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-mispk",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-nuniv",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-pktrm",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-prmnl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-rvrwy",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-symcl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70202",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-gover",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70202",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-gover",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70206",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-north",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70206",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-north",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "170136",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-babck",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70238",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-clmnl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70150",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-kencl",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70260",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-hsmnl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "BOARD",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "170137",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-babck",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70237",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-clmnl",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70151",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-kencl",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70260",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-hsmnl",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 0,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70201",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-gover",
+      "route": "Green-B",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70201",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-gover",
+      "route": "Green-C",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70205",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-north",
+      "route": "Green-D",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "70205",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     },
+     {
+      "stop": "place-north",
+      "route": "Green-E",
+      "route_type": 0,
+      "direction_id": 1,
+      "activities": [
+       "EXIT",
+       "RIDE"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1009001",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Andrew Escalator 124 (Ashmont/Braintree platform to busway) is unavailable.",
+    "informed_entity": [
+     {
+      "stop": "place-andrw",
+      "route": "10",
+      "route_type": 3,
+      "facility": "124",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "16",
+      "route_type": 3,
+      "facility": "124",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "17",
+      "route_type": 3,
+      "facility": "124",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "171",
+      "route_type": 3,
+      "facility": "124",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "18",
+      "route_type": 3,
+      "facility": "124",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "708",
+      "route_type": 3,
+      "facility": "124",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "9",
+      "route_type": 3,
+      "facility": "124",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70083",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "124",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-andrw-busway",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "124",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-andrw",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "124",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1030394",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "South Station Escalator 388 (Lobby to CSA area) is unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "70079",
+      "route": "741",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70080",
+      "route": "741",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "74611",
+      "route": "741",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "74617",
+      "route": "741",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "84611",
+      "route": "741",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "NEC-2287-B",
+      "route": "741",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "741",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70079",
+      "route": "742",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70080",
+      "route": "742",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "74611",
+      "route": "742",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "74617",
+      "route": "742",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "84611",
+      "route": "742",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "NEC-2287-B",
+      "route": "742",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "742",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70079",
+      "route": "743",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70080",
+      "route": "743",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "74611",
+      "route": "743",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "74617",
+      "route": "743",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "84611",
+      "route": "743",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "NEC-2287-B",
+      "route": "743",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "743",
+      "route_type": 3,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "CR-Fairmount",
+      "route_type": 2,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "CR-Franklin",
+      "route_type": 2,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "CR-Greenbush",
+      "route_type": 2,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "CR-Kingston",
+      "route_type": 2,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "CR-Needham",
+      "route_type": 2,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "CR-NewBedford",
+      "route_type": 2,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "CR-Providence",
+      "route_type": 2,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "CR-Worcester",
+      "route_type": 2,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70079",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70080",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "74611",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "74617",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "84611",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "NEC-2287-B",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-sstat",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "388",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1040249",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "State Escalator 374 (Oak Grove platform to City Hall Plaza) is unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "70022",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70023",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70041",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70042",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-state-cityhall",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-state",
+      "route": "Blue",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70022",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70023",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70041",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70042",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "door-state-cityhall",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-state",
+      "route": "Orange",
+      "route_type": 1,
+      "facility": "374",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "id": "1037250",
+   "attributes": {
+    "effect": "ESCALATOR_CLOSURE",
+    "header": "Braintree Escalator 334 (Red Line platform to paid lobby) is unavailable due to maintenance.",
+    "informed_entity": [
+     {
+      "stop": "place-brntn",
+      "route": "210",
+      "route_type": 3,
+      "facility": "334",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-brntn",
+      "route": "226",
+      "route_type": 3,
+      "facility": "334",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-brntn",
+      "route": "230",
+      "route_type": 3,
+      "facility": "334",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-brntn",
+      "route": "236",
+      "route_type": 3,
+      "facility": "334",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-brntn",
+      "route": "CR-Kingston",
+      "route_type": 2,
+      "facility": "334",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-brntn",
+      "route": "CR-NewBedford",
+      "route_type": 2,
+      "facility": "334",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "70105",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "334",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "Braintree-01",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "334",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "Braintree-02",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "334",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     },
+     {
+      "stop": "place-brntn",
+      "route": "Red",
+      "route_type": 1,
+      "facility": "334",
+      "activities": [
+       "USING_ESCALATOR"
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}
