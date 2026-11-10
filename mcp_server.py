@@ -6,11 +6,11 @@ load_dotenv()
 
 from agents.db import get_connection
 from agents.planner import planner_agent
-from agents.checker import checker_agent, get_live_alerts
+from agents.checker import checker_agent, get_live_alerts, access_alerts, service_disruptions
 from agents.retriever import search_policies
 
 mcp = FastMCP("transitwise")
-MBTA_KEY = os.getenv("MBTA_KEY")
+MBTA_KEY = os.getenv("MBTA_KEY") or os.getenv("MBTA_API_KEY")
 _conn = None
 
 
@@ -23,34 +23,42 @@ def conn():
 
 @mcp.tool()
 def plan_route(origin: str, destination: str, avoid: list[str] | None = None) -> dict:
-    """Find a step-free MBTA subway route between two stations.
-    Optionally avoid station IDs such as 'place-dwnxg' (Downtown Crossing)."""
+    """Find a step-free MBTA subway route between two stations (ignores live alerts).
+    Optionally stay away from station IDs such as 'place-dwnxg' (Downtown Crossing);
+    if that's impossible, the route may pass through them (listed in passes_through_avoided)."""
     if not origin.strip() or not destination.strip():
         return {"ok": False, "reason": "Origin and destination are required."}
-    return planner_agent(conn(), origin.strip(), destination.strip(), avoid=(avoid or [])[:10])
+    return planner_agent(conn(), origin.strip(), destination.strip(), exclude=(avoid or [])[:10])
 
 
 @mcp.tool()
 def check_route(origin: str, destination: str) -> dict:
-    """Plan a route and check it against live MBTA elevator and escalator outages.
-    Returns whether the trip is safe and any blocking problems."""
+    """Plan a route and check it against live MBTA elevator/escalator outages and service
+    changes (suspensions, shuttles, closures). Returns whether the trip is safe, any blocking
+    problems, and a route that avoids suspended segments and closed stops."""
     if not origin.strip() or not destination.strip():
         return {"ok": False, "reason": "Origin and destination are required."}
     plan = planner_agent(conn(), origin.strip(), destination.strip())
     if not plan["ok"]:
         return plan
     try:
-        return {"route": plan["stations"], "check": checker_agent(plan, MBTA_KEY)}
+        alerts = get_live_alerts(MBTA_KEY)
     except Exception:
         return {"route": plan["stations"],
                 "error": "Live outage data unavailable. Check mbta.com/alerts/access."}
+    result = {"route": plan["stations"], "check": checker_agent(plan, MBTA_KEY, alerts=alerts)}
+    live = planner_agent(conn(), origin.strip(), destination.strip(),
+                         disruptions=service_disruptions(alerts))
+    if live["ok"] and live["path"] != plan["path"]:
+        result["route_with_service_changes"] = live["stations"]
+    return result
 
 
 @mcp.tool()
 def get_accessibility_alerts(limit: int = 20) -> list[dict]:
     """List current MBTA elevator and escalator outage alerts (max 50)."""
     limit = max(1, min(limit, 50))
-    alerts = get_live_alerts(MBTA_KEY)[:limit]
+    alerts = access_alerts(get_live_alerts(MBTA_KEY))[:limit]
     return [{"effect": a["attributes"]["effect"], "header": a["attributes"]["header"]}
             for a in alerts]
 

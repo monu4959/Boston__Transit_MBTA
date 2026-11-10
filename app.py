@@ -20,7 +20,10 @@ if APP_PASSWORD and not st.session_state.get("authed"):
     st.stop()
 
 # ---------- secrets check ----------
-missing = [k for k in ("SNOWFLAKE_ACCOUNT", "SNOWFLAKE_USER", "MBTA_KEY", "LLM_API_KEY") if not os.getenv(k)]
+MBTA_KEY = os.getenv("MBTA_KEY") or os.getenv("MBTA_API_KEY")
+missing = [k for k in ("SNOWFLAKE_ACCOUNT", "SNOWFLAKE_USER", "LLM_API_KEY") if not os.getenv(k)]
+if not MBTA_KEY:
+    missing.append("MBTA_KEY")
 if not any(os.getenv(k) for k in ("SNOWFLAKE_PRIVATE_KEY", "SNOWFLAKE_PRIVATE_KEY_FILE", "SNOWFLAKE_PASSWORD")):
     missing.append("SNOWFLAKE_PRIVATE_KEY_FILE")
 if missing:
@@ -28,16 +31,15 @@ if missing:
     st.error("Missing secrets: " + ", ".join(missing))
     st.stop()
 
-MBTA_KEY = os.getenv("MBTA_KEY")
-
 # ---------- load agents ----------
 status.info("Loading agents…")
 print("app: importing agents", flush=True)
 from agents.db import get_connection
 from agents.planner import build_graph
-from agents.replanner import replanner_agent
+from agents.replanner import replanner_agent, LINE_NAMES
 from agents.monitor import start_trip, check_trip
 from agents.request_parser import parse_request, penalty_for
+from agents.retriever import get_model
 print("app: agents imported", flush=True)
 
 
@@ -58,10 +60,19 @@ def get_stations():
     return sorted(step_free), step_free
 
 
+@st.cache_resource
+def load_search_model():
+    """Load the embedding model at startup, not on the first trip request."""
+    print("app: loading search model", flush=True)
+    return get_model()
+
+
 status.info("Connecting to Snowflake…")
 conn = get_conn()
 status.info("Building the subway map…")
 stations, step_free = get_stations()
+status.info("Loading the policy search model…")
+load_search_model()
 status.empty()
 
 
@@ -71,14 +82,33 @@ def label(name):
 
 def show_route(plan, heading):
     st.markdown(f"**{heading}** (about {plan['minutes']} min)")
-    st.write(" → ".join(plan["stations"]))
+    if plan.get("legs"):
+        for leg in plan["legs"]:
+            toward = f" toward {leg['toward']}" if leg.get("toward") else ""
+            st.write(f"{LINE_NAMES.get(leg['line'], leg['line'])}{toward}: "
+                     f"{leg['from_name']} → {leg['to_name']}")
+    else:
+        st.write(" → ".join(plan["stations"]))
     if plan["transfers"]:
         st.caption("Change trains at: " + ", ".join(plan["transfers"]))
+    if plan.get("passes_through_avoided"):
+        st.info("No step-free route avoids " + ", ".join(plan["passes_through_avoided"])
+                + " completely. Your train passes through, but you stay on board: no transfer there.")
+
+
+def plan_trip(origin, dest, source, transfer_penalty=None, avoid_names=None):
+    with st.spinner("Planning your route and checking live elevator outages and service changes..."):
+        st.session_state.result = replanner_agent(
+            conn, origin, dest, MBTA_KEY, log_source=source,
+            transfer_penalty=transfer_penalty, avoid_names=avoid_names)
+    st.session_state.od = (origin, dest)
+    st.session_state.prefs = {"transfer_penalty": transfer_penalty, "avoid_names": avoid_names}
+    st.session_state.pop("trip", None)
 
 
 # ---------- trip input ----------
 st.title("♿ TransitWise Boston")
-st.caption("Step-free MBTA subway trips, checked against live elevator outages")
+st.caption("Step-free MBTA subway trips, checked against live elevator outages and service changes")
 
 c1, c2 = st.columns(2)
 origin = c1.selectbox("From", stations, format_func=label,
@@ -90,11 +120,10 @@ if st.button("Plan step-free trip", type="primary", use_container_width=True):
     if origin == dest:
         st.warning("Pick two different stations.")
     else:
-        with st.spinner("Planning your route and checking live elevator outages..."):
-            st.session_state.result = replanner_agent(conn, origin, dest, MBTA_KEY, log_source="app")
-            st.session_state.od = (origin, dest)
-            st.session_state.pop("trip", None)
-            st.markdown("**Or describe your trip in your own words**")
+        st.session_state.pop("parsed", None)
+        plan_trip(origin, dest, "app")
+
+st.markdown("**Or describe your trip in your own words**")
 nl_text = st.text_input("Trip request", label_visibility="collapsed",
                         placeholder="e.g. I use a wheelchair, Kendall to Back Bay, and I hate changing trains")
 if st.button("Understand and plan", use_container_width=True) and nl_text.strip():
@@ -102,13 +131,9 @@ if st.button("Understand and plan", use_container_width=True) and nl_text.strip(
         parsed = parse_request(nl_text, stations)
     st.session_state.parsed = parsed
     if parsed["origin"] and parsed["destination"]:
-        with st.spinner("Planning your route and checking live elevator outages..."):
-            st.session_state.result = replanner_agent(
-                conn, parsed["origin"], parsed["destination"], MBTA_KEY, log_source="app-nl",
-                transfer_penalty=penalty_for(parsed), avoid_names=parsed["avoid"])
-            st.session_state.od = (parsed["origin"], parsed["destination"])
-            st.session_state.pop("trip", None)
-        st.rerun()
+        plan_trip(parsed["origin"], parsed["destination"], "app-nl",
+                  transfer_penalty=penalty_for(parsed), avoid_names=parsed["avoid"])
+    st.rerun()
 
 p = st.session_state.get("parsed")
 if p:
@@ -126,12 +151,12 @@ if r:
     if not r["ok"]:
         st.error(r["reason"])
     elif not r["changed"]:
-        st.success("Your route is clear. No elevator outages affect this trip.")
+        st.success("Your route is clear. No elevator outages or service changes affect this trip.")
         show_route(r["plan"], "Your route")
     else:
-        st.error(f"{len(r['problems'])} elevator problem(s) affect your usual route")
-        for p in r["problems"]:
-            st.markdown(f"- **{p['station']}** ({p['role']}): {p['alert']}")
+        st.error(f"{len(r['problems'])} problem(s) affect your usual route")
+        for prob in r["problems"]:
+            st.markdown(f"- **{prob['station']}** ({prob['role']}): {prob['alert']}")
         show_route(r["original_plan"], "Usual route")
         if r["new_plan"]:
             st.success("Step-free alternative found")
@@ -146,14 +171,17 @@ if r:
             st.caption("Safety checks applied: " + ", ".join(r["guardrails"]))
 
     # ---------- monitor ----------
-    if r["ok"]:
+    watched = (r.get("new_plan") or r.get("original_plan")) if r.get("changed") else r.get("plan")
+    if r["ok"] and watched:
         st.divider()
         st.subheader("Trip monitor")
         o, d = st.session_state.od
         if "trip" not in st.session_state:
-            st.caption("Watches your trip for new elevator outages while you travel.")
+            st.caption("Watches the route you're taking for new elevator outages and service "
+                       "changes while you travel.")
             if st.button("Start monitoring this trip"):
-                st.session_state.trip = start_trip(conn, o, d, MBTA_KEY)
+                st.session_state.trip = start_trip(conn, o, d, MBTA_KEY, plan=watched,
+                                                   **st.session_state.get("prefs", {}))
                 st.rerun()
         else:
             trip = st.session_state.trip
@@ -165,14 +193,19 @@ if r:
                     with st.spinner("Checking live outages..."):
                         check_trip(conn, trip, MBTA_KEY)
                 if b2.button("Simulate a new outage (demo)", use_container_width=True):
-                    trip["known_alerts"] = set()
                     with st.spinner("Re-checking and replanning..."):
-                        check_trip(conn, trip, MBTA_KEY)
-                st.caption(f"Monitoring {o} → {d}. Checks so far: {len(trip['history'])}")
+                        check_trip(conn, trip, MBTA_KEY, simulate=True)
+                st.caption(f"Monitoring {' → '.join(trip['plan']['stations'])}. "
+                           f"Checks so far: {len(trip['history'])}")
                 for ev in reversed(trip["history"]):
                     if ev["new_problems"]:
-                        names_ = ", ".join(p["station"] for p in ev["new_problems"])
-                        st.error(f"{ev['time']}: new outage at {names_}. Trip replanned.")
+                        names_ = ", ".join(x["station"] for x in ev["new_problems"])
+                        msg = f"{ev['time']}: new problem at {names_}."
+                        if ev.get("switched_to"):
+                            msg += " Switched to: " + " → ".join(ev["switched_to"])
+                        else:
+                            msg += " No better step-free route right now."
+                        st.error(msg)
                         if ev["replan"] and ev["replan"].get("explanation"):
                             with st.expander("See updated guidance"):
                                 st.markdown(ev["replan"]["explanation"])
@@ -180,4 +213,4 @@ if r:
                         st.success(f"{ev['time']}: an outage on your route was resolved.")
                     else:
                         st.info(f"{ev['time']}: no new problems on your route.")
-                        #py -3.12 -m streamlit run app.py
+# py -3.12 -m streamlit run app.py

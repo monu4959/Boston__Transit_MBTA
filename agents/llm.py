@@ -20,16 +20,14 @@ def ask_llm(prompt):
         import anthropic
         client = anthropic.Anthropic(api_key=_get_key())
         msg = client.messages.create(
-        model="claude-haiku-5-5",
-        max_tokens=2000,
-        messages=[{"role": "user", "content": prompt}],
+            model="claude-haiku-5-5",
+            max_tokens=2000,
+            messages=[{"role": "user", "content": prompt}],
         )
         text = "".join(block.text for block in msg.content if block.type == "text")
         if not text:
             text = f"(No answer text returned. stop_reason: {msg.stop_reason})"
         return text
-        
-        return "".join(block.text for block in msg.content if block.type == "text")
     else:
         from openai import OpenAI
         client = OpenAI(api_key=_get_key())
