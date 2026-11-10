@@ -4,6 +4,7 @@ Runs every 30 minutes on GitHub Actions (.github/workflows/load_alerts.yml).
 Run by hand from the repo root:  python pipeline/load_alerts.py
 """
 import os
+import re
 import sys
 from datetime import datetime, timezone
 
@@ -18,6 +19,19 @@ from agents.db import get_connection
 
 def ids(entities, key):
     return ",".join(sorted({e[key] for e in entities if e.get(key)}))
+
+
+def clean_mbta_key(value):
+    """MBTA keys are 32 hex characters. Pull the key out of however it was pasted
+    (extra lines, quotes, "MBTA_KEY=" prefix). None means call the API without a key,
+    which works at a lower rate limit."""
+    if not value or not value.strip():
+        return None
+    m = re.search(r"(?<![0-9a-fA-F])[0-9a-fA-F]{32}(?![0-9a-fA-F])", value)
+    if not m:
+        print("Warning: MBTA_API_KEY is not a 32-character key; calling the MBTA API without it.")
+        return None
+    return m.group(0)
 
 
 def fetch_alerts(mbta_key):
@@ -59,8 +73,7 @@ def fetch_alerts(mbta_key):
 
 def load_alerts_snapshot(conn, mbta_key=None):
     """Load: append this snapshot. Returns the number of rows written."""
-    key = mbta_key or (os.getenv("MBTA_API_KEY") or os.getenv("MBTA_KEY") or "").strip()
-    alerts = fetch_alerts(key or None)
+    alerts = fetch_alerts(mbta_key or clean_mbta_key(os.getenv("MBTA_API_KEY") or os.getenv("MBTA_KEY")))
     success, _, rows_loaded, _ = write_pandas(
         conn, alerts, "ALERTS_HISTORY",
         database="TRANSITWISE_DB", schema="RAW",
