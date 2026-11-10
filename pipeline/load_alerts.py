@@ -25,7 +25,7 @@ def fetch_alerts(mbta_key):
     resp = requests.get(
         "https://api-v3.mbta.com/alerts",
         params={"filter[activity]": "ALL"},
-        headers={"x-api-key": mbta_key},
+        headers={"x-api-key": mbta_key} if mbta_key else {},
         timeout=30,
     )
     resp.raise_for_status()
@@ -59,7 +59,8 @@ def fetch_alerts(mbta_key):
 
 def load_alerts_snapshot(conn, mbta_key=None):
     """Load: append this snapshot. Returns the number of rows written."""
-    alerts = fetch_alerts(mbta_key or os.getenv("MBTA_API_KEY") or os.getenv("MBTA_KEY"))
+    key = mbta_key or (os.getenv("MBTA_API_KEY") or os.getenv("MBTA_KEY") or "").strip()
+    alerts = fetch_alerts(key or None)
     success, _, rows_loaded, _ = write_pandas(
         conn, alerts, "ALERTS_HISTORY",
         database="TRANSITWISE_DB", schema="RAW",
@@ -72,6 +73,10 @@ def load_alerts_snapshot(conn, mbta_key=None):
 
 
 if __name__ == "__main__":
+    # Which settings this run can see (names only, never values) -- helps debug CI secrets.
+    names = ["SNOWFLAKE_ACCOUNT", "SNOWFLAKE_USER", "SNOWFLAKE_ROLE", "SNOWFLAKE_WAREHOUSE",
+             "SNOWFLAKE_DATABASE", "SNOWFLAKE_PRIVATE_KEY", "SNOWFLAKE_PRIVATE_KEY_FILE", "MBTA_API_KEY"]
+    print("Settings present:", ", ".join(n for n in names if (os.getenv(n) or "").strip()) or "none")
     conn = get_connection()
     try:
         n = load_alerts_snapshot(conn)
