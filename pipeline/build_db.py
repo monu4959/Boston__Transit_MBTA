@@ -8,7 +8,9 @@ ALERTS_HISTORY is only appended to (one new snapshot per run).
 import glob
 import json
 import os
+import re
 import sys
+import unicodedata
 from datetime import datetime, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,15 +21,15 @@ import requests
 from snowflake.connector.pandas_tools import write_pandas
 
 from agents.db import get_connection
-from pipeline.load_alerts import load_alerts_snapshot
+from pipeline.load_alerts import clean_mbta_key, load_alerts_snapshot
 
 MBTA = "https://api-v3.mbta.com"
 ACCESS_LABELS = {0: "unknown", 1: "accessible", 2: "not accessible"}
 
 
 def mbta(path, **params):
-    key = os.getenv("MBTA_API_KEY") or os.getenv("MBTA_KEY")
-    r = requests.get(MBTA + path, params=params, headers={"x-api-key": key}, timeout=30)
+    key = clean_mbta_key(os.getenv("MBTA_KEY") or os.getenv("MBTA_API_KEY"))
+    r = requests.get(MBTA + path, params=params, headers={"x-api-key": key} if key else {}, timeout=30)
     r.raise_for_status()
     return r.json()
 
@@ -88,6 +90,30 @@ def load_route_stops(routes):
     return pd.DataFrame(rows)
 
 
+def load_platforms(routes):
+    """Which platform (child stop) a rider uses at each station, per line and direction.
+    Taken from the stop list of each route pattern's representative trip."""
+    subway = routes.loc[routes["route_type"].isin([0, 1]), "route_id"]
+    data = mbta("/route_patterns", **{"filter[route]": ",".join(subway),
+                                      "include": "representative_trip.stops"})
+    trips = {x["id"]: x for x in data.get("included", []) if x["type"] == "trip"}
+    stops = {x["id"]: x for x in data.get("included", []) if x["type"] == "stop"}
+    rows = set()
+    for pattern in data["data"]:
+        if pattern["attributes"]["typicality"] not in (1, 2):   # skip diversions and shuttles
+            continue
+        route = pattern["relationships"]["route"]["data"]["id"]
+        direction = pattern["attributes"]["direction_id"]
+        trip = trips.get((pattern["relationships"]["representative_trip"]["data"] or {}).get("id"))
+        for ref in (trip or {}).get("relationships", {}).get("stops", {}).get("data", []):
+            stop = stops.get(ref["id"])
+            parent = ((stop or {}).get("relationships", {}).get("parent_station", {}).get("data") or {}).get("id")
+            if parent:
+                rows.add((parent, route, direction, stop["id"], stop["attributes"]["platform_name"]))
+    return pd.DataFrame(sorted(rows), columns=["station_id", "route_id", "direction_id",
+                                               "stop_id", "platform_name"])
+
+
 def load_facilities(stations):
     """Elevators, escalators and lifts at the stations above."""
     data = mbta("/facilities", **{"filter[type]": "ELEVATOR,ESCALATOR,PORTABLE_BOARDING_LIFT,ELEVATED_SUBPLATFORM"})
@@ -125,13 +151,41 @@ def chunk_text(text, size=1000, overlap=200):
     return chunks
 
 
+# Browser chrome printed into the saved web pages: print headers, menus and footer links.
+PAGE_CHROME = [
+    r"^\d{1,2}/\d{1,2}/\d{2}, \d{1,2}:\d{2} [AP]M ",                  # print header with date
+    r"^https?://\S+ \d+/\d+$",                                         # print footer URL + page
+    r"^(Menu|Massachusetts Bay|›|⌄|English)$",
+    r"^Transportation Authority Search for routes",
+    r"^An official website of the City of Boston",
+    r"^© Massachusetts Bay Transportation Authority",
+    r"^Privacy Policy\s+Terms of Use$",
+    r"^(Customer Support|Send Us Feedback|Lost & Found|Request Public Records|Language Services|"
+    r"Get to Know Us|Leadership|History|Financials|Public Meetings|Media Relations|"
+    r"Policies & Civil Rights|Safety|Performance|Work With Us|Careers|Institutional Sales|"
+    r"Business Opportunities|Engineering Design Standards|Developers)$",
+    r"(?i:\((https?:|/|mailto:|tel:))|%3A",                              # link-only lines
+    r"^(PAGE SECTIONS|1 CITY HALL SQUARE|ROOM \d+|BOSTON, MA \d{5}-\d{4}|CONTACT INFORMATION|"
+    r"Still have questions\? Contact:|REETS-CABINET-CONTACT-INFORMATION\)|DIGITAL\)|ACCOMMODATIONS\)|"
+    r"VULNERABILITY DISCLOSURE|PROVIDE YOUR FEEDBACK|SOURCE_ENTITY_TYPE=.*)$",
+]
+_CHROME = re.compile("|".join(f"(?:{p})" for p in PAGE_CHROME))
+
+
+def clean_page(text):
+    """Drop page chrome lines so chunks only hold the document's own text."""
+    text = unicodedata.normalize("NFKC", text)                       # "ﬁ" -> "fi"
+    text = "".join(c for c in text if not 0xE000 <= ord(c) <= 0xF8FF)  # icon-font glyphs
+    return "\n".join(line for line in text.splitlines() if not _CHROME.search(line.strip()))
+
+
 def load_policy_chunks(conn):
     from pypdf import PdfReader
     from agents.retriever import embed
 
     docs = []
     for path in sorted(glob.glob(os.path.join(ROOT, "policy_docs", "*.pdf"))):
-        text = " ".join((page.extract_text() or "") for page in PdfReader(path).pages)
+        text = " ".join(clean_page(page.extract_text() or "") for page in PdfReader(path).pages)
         for i, ch in enumerate(chunk_text(" ".join(text.split()))):
             docs.append((os.path.basename(path), i, ch))
 
@@ -154,6 +208,7 @@ def main():
         write(conn, routes, "ROUTES")
         write(conn, stations, "STATIONS")
         write(conn, load_route_stops(routes), "ROUTE_STOPS")
+        write(conn, load_platforms(routes), "PLATFORMS")
         write(conn, load_facilities(stations), "FACILITIES")
 
         print("Alert snapshot:")
