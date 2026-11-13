@@ -191,3 +191,120 @@ def keyword_parse(text, station_names):
 # ---------- Node 3: preference -> routing objective ----------
 def penalty_for(parsed):
     return FEWER_TRANSFERS_MIN if parsed["fewer_transfers"] >= THRESHOLD else DEFAULT_TRANSFER_MIN
+
+
+# ---------- Door-to-door requests: places, not just stations ----------
+CURRENT = "CURRENT_LOCATION"
+HERE_WORDS = r"(?:my (?:current )?location|where i am|here|my place|current location)"
+
+DOOR_EXAMPLES = [
+    ("from my location to Boston Children's Hospital",
+     {"origin": CURRENT, "destination": "Boston Children's Hospital", "fewer_transfers": 0.5,
+      "avoid": [], "max_roll_minutes": None}),
+    ("I need to get to Fenway Park from 120 Brookline Ave, as few transfers as possible",
+     {"origin": "120 Brookline Ave", "destination": "Fenway Park", "fewer_transfers": 0.9,
+      "avoid": [], "max_roll_minutes": None}),
+    ("wheelchair user, Northeastern University to Logan Airport Terminal B, I can only roll about 5 minutes at a time",
+     {"origin": "Northeastern University", "destination": "Logan Airport Terminal B",
+      "fewer_transfers": 0.5, "avoid": [], "max_roll_minutes": 5}),
+    ("take me home to 45 Centre St Jamaica Plain from here, avoid Downtown Crossing",
+     {"origin": CURRENT, "destination": "45 Centre St, Jamaica Plain", "fewer_transfers": 0.5,
+      "avoid": ["Downtown Crossing"], "max_roll_minutes": None}),
+    ("Harvard to Mass General Hospital",
+     {"origin": "Harvard", "destination": "Mass General Hospital", "fewer_transfers": 0.5,
+      "avoid": [], "max_roll_minutes": None}),
+    ("going from Union Square Somerville to the Boston Convention Center, whatever is fastest",
+     {"origin": "Union Square, Somerville", "destination": "Boston Convention Center",
+      "fewer_transfers": 0.2, "avoid": [], "max_roll_minutes": None}),
+    ("Chelsea City Hall to Boston Medical Center, keep the rolling short",
+     {"origin": "Chelsea City Hall", "destination": "Boston Medical Center", "fewer_transfers": 0.5,
+      "avoid": [], "max_roll_minutes": 5}),
+    ("my mom uses a walker; from Coolidge Corner to the Museum of Science with one bus or train if possible",
+     {"origin": "Coolidge Corner", "destination": "Museum of Science", "fewer_transfers": 0.95,
+      "avoid": [], "max_roll_minutes": None}),
+]
+
+_door_vecs = None
+
+
+def _door_examples(text, k):
+    global _door_vecs
+    if k <= 0:
+        return []
+    if _door_vecs is None:
+        _door_vecs = np.array([embed(t) for t, _ in DOOR_EXAMPLES])
+    sims = _door_vecs @ np.array(embed(text))
+    return [DOOR_EXAMPLES[i] for i in np.argsort(-sims)[:k]]
+
+
+def build_trip_prompt(text, examples):
+    shots = "\n\n".join(f"Request: {t}\nJSON: {json.dumps(y)}" for t, y in examples)
+    return f"""You convert door-to-door trip requests in the Boston area into JSON. Do not plan a route.
+Return only a JSON object with these keys:
+- "origin": the place the rider starts from, as written (address, place, or station), or "{CURRENT}" if they mean where they are now
+- "destination": the place the rider is going to, as written, or "{CURRENT}"
+- "fewer_transfers": a number from 0 to 1 for how strongly the rider wants to avoid changing buses or trains (0.5 if not mentioned)
+- "avoid": a list of MBTA stations the rider wants to avoid (empty if none)
+- "max_roll_minutes": the longest the rider wants to walk or roll at one time, in minutes, or null if not mentioned
+
+{("Examples:" + chr(10) + chr(10) + shots) if shots else ""}
+
+Request: {text}
+JSON:"""
+
+
+def _place_text(value):
+    if not isinstance(value, str) or not value.strip():
+        return None
+    v = value.strip()
+    return CURRENT if v.upper() == CURRENT or re.fullmatch(HERE_WORDS, v.lower()) else v
+
+
+def _finish_trip(raw, station_names, t0, method):
+    base = _finish(raw, station_names, t0, method)
+    roll = raw.get("max_roll_minutes")
+    try:
+        roll = max(2.0, min(30.0, float(roll))) if roll is not None else None
+    except (TypeError, ValueError):
+        roll = None
+    return {**base, "origin": _place_text(raw.get("origin")),
+            "destination": _place_text(raw.get("destination")), "max_roll_minutes": roll}
+
+
+def parse_trip_request(text, station_names, k=K_EXAMPLES):
+    """LLM + RAG parser for door-to-door requests. Origin/destination stay as the rider wrote
+    them (agents/places.py resolves them); "my location" becomes CURRENT_LOCATION."""
+    t0 = time.perf_counter()
+    try:
+        raw = _extract_json(ask_llm(build_trip_prompt(text, _door_examples(text, k))))
+    except Exception:
+        raw = {}
+    if not raw.get("origin") and not raw.get("destination"):
+        return keyword_trip_parse(text, station_names)
+    return _finish_trip(raw, station_names, t0, "llm_rag")
+
+
+def keyword_trip_parse(text, station_names):
+    """Baseline / fallback when the LLM is unavailable."""
+    t0 = time.perf_counter()
+    s = text.strip()
+    end = r"(?:[,.!?;]| and | but | because |$)"
+    origin = dest = None
+    m = re.search(rf"from (.+?) to (.+?){end}", s, re.I)
+    if m:
+        origin, dest = m.group(1), m.group(2)
+    else:
+        m = re.search(rf"(?:to|get to|go to|going to) (.+?) from (.+?){end}", s, re.I)
+        if m:
+            dest, origin = m.group(1), m.group(2)
+        else:
+            m = re.search(rf"^(.+?) to (.+?){end}", s, re.I)
+            if m:
+                origin, dest = m.group(1), m.group(2)
+    low = s.lower()
+    avoid = re.findall(r"(?:avoid|avoiding|not through|skip|stay away from) ([a-z/ ]+?)(?:[,.!?;]| if | and |$)", low)
+    roll = re.search(r"(\d+)\s*min(?:ute)?s?\s*(?:of\s*)?(?:rolling|walking|at a time)", low)
+    raw = {"origin": origin, "destination": dest, "avoid": avoid,
+           "fewer_transfers": 1.0 if any(w in low for w in TRANSFER_WORDS) else 0.0,
+           "max_roll_minutes": float(roll.group(1)) if roll else None}
+    return _finish_trip(raw, station_names, t0, "keyword")

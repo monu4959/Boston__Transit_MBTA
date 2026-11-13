@@ -197,3 +197,8 @@ against the rider's platforms instead of blocking every rider at the station.
 py -3.12 -m pytest tests            # offline: no Snowflake, MBTA or LLM calls
 TW_LIVE=1 py -3.12 -m pytest tests  # also runs the LLM parser tests
 ```
+
+## Door-to-door trips
+
+Door-to-door planning (rolling + bus + train) uses OpenTripPlanner; it needs no new Snowflake
+tables. See [door_to_door.md](door_to_door.md).

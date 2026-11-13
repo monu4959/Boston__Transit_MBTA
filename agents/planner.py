@@ -89,7 +89,8 @@ def build_graph(conn):
     for r in (fc.itertuples() if fc is not None else []):
         elevators.setdefault(r.STATION_ID, []).append((str(r.FACILITY_ID), r.LONG_NAME or ""))
 
-    G.graph.update(seq=seq, platforms=platforms, platform_names=platform_names, elevators=elevators)
+    G.graph.update(seq=seq, platforms=platforms, platform_names=platform_names, elevators=elevators,
+                   coords=coords)
     return G, names, accessible, lines_at
 
 
