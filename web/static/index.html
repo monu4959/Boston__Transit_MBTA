@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TransitWise Boston</title>
+  <meta name="description" content="Step-free door-to-door trips across Boston, checked against live MBTA elevator outages and service changes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet">
+  <link href="/static/styles.css" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23F4F5F7'/%3E%3Cpath d='M9 22 23 9 17 25l-2-6z' fill='%230E1013'/%3E%3C/svg%3E">
+</head>
+<body>
+  <a class="skip" href="#results">Skip to trip results</a>
+  <div class="app">
+    <aside class="panel" aria-label="Trip planner">
+      <header class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M5 19 19 5l-6 15-2-6z" /></svg>
+        </div>
+        <div class="brand-text">
+          <h1>TransitWise</h1>
+          <p>Step-free trips across Boston</p>
+        </div>
+        <button class="icon-btn" id="aboutBtn" type="button" aria-label="About TransitWise" data-icon="info"></button>
+      </header>
+
+      <div id="status" class="status" role="status" hidden></div>
+
+      <form id="tripForm" class="search" autocomplete="off" novalidate>
+        <div class="route-fields">
+          <div class="field" id="originField">
+            <span class="marker-dot origin" aria-hidden="true"></span>
+            <label for="origin" class="sr-only">From</label>
+            <input id="origin" name="origin" type="text" placeholder="From: address, place or station"
+                   role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="originList">
+            <button class="icon-btn ghost" id="locateBtn" type="button" aria-label="Start from my current location" data-icon="locate"></button>
+            <ul class="suggest" id="originList" role="listbox" hidden></ul>
+          </div>
+          <div class="field" id="destinationField">
+            <span class="marker-dot dest" aria-hidden="true"></span>
+            <label for="destination" class="sr-only">To</label>
+            <input id="destination" name="destination" type="text" placeholder="To: address, place or station"
+                   role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="destinationList">
+            <ul class="suggest" id="destinationList" role="listbox" hidden></ul>
+          </div>
+          <span class="route-line" aria-hidden="true"></span>
+          <button class="swap" id="swapBtn" type="button" aria-label="Swap start and destination" data-icon="swap"></button>
+        </div>
+
+        <div class="options">
+          <div class="opt">
+            <span class="opt-label" id="leaveLabel">Leave</span>
+            <div class="chip select-chip">
+              <span data-icon="clock"></span>
+              <select id="leave" aria-labelledby="leaveLabel">
+                <option value="now">Now</option>
+                <option value="later">Later…</option>
+              </select>
+              <span data-icon="chevron"></span>
+            </div>
+          </div>
+          <div class="opt">
+            <span class="opt-label" id="rollLabel">Longest roll</span>
+            <div class="chip select-chip">
+              <span data-icon="wheelchair"></span>
+              <select id="maxRoll" aria-labelledby="rollLabel">
+                <option value="5">5 min</option>
+                <option value="8">8 min</option>
+                <option value="10" selected>10 min</option>
+                <option value="15">15 min</option>
+                <option value="20">20 min</option>
+              </select>
+              <span data-icon="chevron"></span>
+            </div>
+          </div>
+          <button type="button" class="chip toggle" id="fewerBtn" aria-pressed="false">
+            <span data-icon="transfer"></span>Fewer transfers
+          </button>
+          <button type="button" class="chip toggle" id="avoidBtn" aria-expanded="false" aria-controls="avoidBox">
+            <span data-icon="filter"></span>Avoid<span class="count" id="avoidCount" hidden></span>
+          </button>
+        </div>
+
+        <div class="later" id="laterBox" hidden>
+          <label for="departAt">Leave at</label>
+          <input id="departAt" type="datetime-local">
+        </div>
+
+        <div class="avoid" id="avoidBox" hidden>
+          <label for="avoidInput">Stay away from these stations</label>
+          <div class="avoid-row">
+            <input id="avoidInput" type="text" list="stationList" placeholder="Type a station, then Enter">
+            <datalist id="stationList"></datalist>
+          </div>
+          <div class="tags" id="avoidTags"></div>
+        </div>
+
+        <button class="cta" type="submit" id="planBtn">
+          <span data-icon="search"></span><span>Plan step-free trip</span>
+        </button>
+
+        <details class="nl" id="nlBox">
+          <summary><span data-icon="sparkle"></span>Describe your trip in your own words</summary>
+          <label for="nlText" class="sr-only">Trip request</label>
+          <textarea id="nlText" rows="2" maxlength="500"
+                    placeholder="e.g. from my location to Boston Children's Hospital, short rolls please"></textarea>
+          <button type="button" class="secondary" id="nlGo">Understand and plan</button>
+          <p class="hint" id="nlEcho" aria-live="polite"></p>
+        </details>
+      </form>
+
+      <section id="results" class="results" aria-live="polite" aria-label="Trip results" tabindex="-1"></section>
+
+      <footer class="foot">
+        Live data: MBTA · Routing: OpenTripPlanner · Map © OpenStreetMap, CARTO
+      </footer>
+    </aside>
+
+    <main class="map-wrap">
+      <div id="map" role="region" aria-label="Map of the selected trip"></div>
+      <div class="map-empty" id="mapEmpty">
+        <div>
+          <span data-icon="wheelchair"></span>
+          <p>Plan a trip to see the step-free route here.</p>
+        </div>
+      </div>
+      <article id="detail" class="detail" hidden aria-label="Selected trip details"></article>
+    </main>
+  </div>
+
+  <dialog id="about" aria-labelledby="aboutTitle">
+    <form method="dialog">
+      <h2 id="aboutTitle">About TransitWise</h2>
+      <p>TransitWise plans step-free trips door to door: rolling, buses, subway, Commuter Rail and
+        ferries, with live MBTA times. Every trip is checked against live elevator outages, moved
+        or closed stops and service suspensions, and rerouted when something is broken.</p>
+      <ul>
+        <li>Rolling routes come from OpenStreetMap and may miss broken curb cuts or construction.</li>
+        <li>Trips planned for later are checked against alerts active right now.</li>
+        <li>Always confirm with MBTA: mbta.com/alerts/access or 617-222-3200.</li>
+      </ul>
+      <button class="secondary" value="close">Close</button>
+    </form>
+  </dialog>
+
+  <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -25,8 +25,21 @@ elevators, which is why every trip goes through the Checker.
 ```
 py -3.12 otp/setup_otp.py all       # first time: download, clip the map, build, serve (~5 min, Docker)
 py -3.12 otp/setup_otp.py refresh   # weekly: new MBTA timetable, rebuild, restart
-py -3.12 -m streamlit run app.py
+py -3.12 -m uvicorn web.server:app --port 8000     # the website: http://localhost:8000
 ```
+
+The website (`web/`) is door to door only: a FastAPI server (`web/server.py`) around the agents,
+and a static page (`web/static/`) with a MapLibre dark map. API:
+
+| Endpoint | What it does |
+|---|---|
+| `GET /api/places?q=` | Station matches as you type; `&address=true` also searches addresses (on request only: Nominatim forbids search-as-you-type) |
+| `POST /api/plan` | Plan, check and reroute (fast, no LLM); returns trip options for the cards |
+| `POST /api/explain/{id}` | The plain-English explanation with guardrails, loaded after the trip is on screen |
+| `POST /api/parse` | Natural-language request → places and preferences |
+| `POST /api/monitor/start`, `POST /api/monitor/{id}/check` | Live monitoring (the page checks every 2 minutes) |
+
+The older Streamlit app (`app.py`) still works but is no longer the main interface.
 
 Data lives in `OTP_DATA_DIR` (default `~/transitwise-otp`, outside OneDrive). The app finds OTP at
 `OTP_URL` (default `http://localhost:8080/otp/gtfs/v1`). "Use my current location" needs

@@ -13,6 +13,7 @@ SUPPORT = rp.SUPPORT
 RIDE = ("The RIDE, the MBTA's door-to-door paratransit service, may be an option if you are "
         "eligible (mbta.com/accessibility/the-ride). ")
 ICONS = {"ROLL": "♿", "BUS": "🚌", "SUBWAY": "🚇", "TRAM": "🚊", "RAIL": "🚆", "FERRY": "⛴️"}
+SLOWER_MIN = 15    # look further when the best safe option is this much slower than the usual trip
 
 
 def clock(iso):
@@ -220,9 +221,10 @@ def _plan(conn, origin, dest, mbta_key, depart_at=None, prefs=None, avoid_ids=()
 
     problems = usual_check["blocking"]
     safe = [t for t, c in checks if c["safe"]]
-    # Follow-up searches without the routes the problems sit on, also when every safe option
-    # so far rolls longer than the rider wants
-    if not any(otp.within_limits(t, prefs) for t in safe):
+    # Follow-up searches without the routes the problems sit on: when nothing is safe yet, when
+    # every safe option rolls longer than the rider wants, or when the best one is much slower
+    good = [t for t in safe if otp.within_limits(t, prefs)]
+    if not good or good[0]["minutes"] > usual["minutes"] + SLOWER_MIN:
         tried, seen = [], {t["key"] for t in options}
         for excluded in exclusion_sets(problems):
             try:
