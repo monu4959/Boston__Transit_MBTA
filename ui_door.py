@@ -87,10 +87,14 @@ def trip_map(trip, origin, dest):
         map_style="light",
         initial_view_state=pdk.ViewState(latitude=(min(lats) + max(lats)) / 2,
                                          longitude=(min(lons) + max(lons)) / 2, zoom=zoom),
-        layers=[pdk.Layer("PathLayer", paths, get_path="path", get_color="color",
-                          get_width="width", width_units="pixels", pickable=True),
+        layers=[pdk.Layer("PathLayer", [{**p, "width": p["width"] + 4} for p in paths],   # dark outline
+                          get_path="path", get_color=[40, 40, 40], get_width="width",
+                          width_units=pdk.types.String("pixels"), width_min_pixels=7, cap_rounded=True, joint_rounded=True),
+                pdk.Layer("PathLayer", paths, get_path="path", get_color="color",
+                          get_width="width", width_units=pdk.types.String("pixels"), width_min_pixels=4, cap_rounded=True,
+                          joint_rounded=True, pickable=True),
                 pdk.Layer("ScatterplotLayer", stops + ends, get_position="pos", get_fill_color="color",
-                          get_radius=6, radius_units="pixels", pickable=True)],
+                          get_radius=6, radius_units=pdk.types.String("pixels"), pickable=True)],
         tooltip={"text": "{name}"}))
 
 
