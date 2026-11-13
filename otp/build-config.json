@@ -4,5 +4,9 @@
   ],
   "osm": [
     { "source": "boston-area.osm.pbf", "timeZone": "America/New_York" }
+  ],
+  "transferRequests": [
+    { "modes": "WALK" },
+    { "modes": "WALK", "wheelchairAccessibility": { "enabled": true } }
   ]
 }

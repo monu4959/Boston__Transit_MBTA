@@ -181,6 +181,11 @@ def trip_key(trip):
                  for l in trip["legs"] if l["transit"]) or ("roll only",)
 
 
+def line_key(trip):
+    """The lines ridden, in order: what the rider chooses between."""
+    return tuple(l["route_id"] for l in trip["legs"] if l["transit"]) or ("roll only",)
+
+
 def to_trip(itinerary, origin=None, dest=None):
     legs = [_leg(l) for l in itinerary["legs"]]
     rolls = [l["minutes"] for l in legs if l["mode"] == "ROLL"]
@@ -248,7 +253,7 @@ def _location(place):
             "label": place.get("name")}
 
 
-def query_itineraries(origin, dest, depart_at=None, profile=PROFILES[0], exclude_routes=(), n=5):
+def query_itineraries(origin, dest, depart_at=None, profile=PROFILES[0], exclude_routes=(), n=10):
     """Raw OTP itineraries for one search profile. Tests replace this with recorded answers."""
     prefs = {
         "accessibility": {"wheelchair": {"enabled": True}},
@@ -263,13 +268,23 @@ def query_itineraries(origin, dest, depart_at=None, profile=PROFILES[0], exclude
     return [e["node"] for e in pc["edges"]], pc.get("routingErrors") or []
 
 
-def plan_options(origin, dest, depart_at=None, prefs=None, exclude_routes=()):
-    """All step-free trip options from both search profiles, best first.
-    origin/dest: {"name", "lat", "lon"}. depart_at: ISO time with offset, or None for now."""
-    t0 = time.perf_counter()
+def _search(origin, dest, depart_at, exclude_routes):
+    """Both search profiles in parallel: [(itineraries, errors), ...]."""
     with ThreadPoolExecutor(len(PROFILES)) as pool:
-        answers = list(pool.map(lambda pr: query_itineraries(origin, dest, depart_at, pr, tuple(exclude_routes)),
-                                PROFILES))
+        return list(pool.map(lambda pr: query_itineraries(origin, dest, depart_at, pr, tuple(exclude_routes)),
+                             PROFILES))
+
+
+def variety_sets(trip, exclude_routes=()):
+    """Route sets to leave out so different buses and trains show up: all the lines of the best
+    trip, then each of them on its own. At most 3."""
+    routes = list(dict.fromkeys(l["route_id"] for l in trip["legs"] if l["transit"]))
+    base = frozenset(exclude_routes)
+    sets = [base | set(routes)] + ([base | {r} for r in routes] if len(routes) > 1 else [])
+    return list(dict.fromkeys(s for s in sets if s != base))[:3]
+
+
+def _merge(answers, origin, dest, prefs):
     seen, options, errors = set(), [], []
     for itineraries, errs in answers:
         errors += [e for e in errs if e not in errors]
@@ -290,6 +305,26 @@ def plan_options(origin, dest, depart_at=None, prefs=None, exclude_routes=()):
         if t["key"] not in keys:
             keys.add(t["key"])
             best.append(t)
+    return best, errors
+
+
+def plan_options(origin, dest, depart_at=None, prefs=None, exclude_routes=(), min_options=0):
+    """All step-free trip options from both search profiles, best first.
+    origin/dest: {"name", "lat", "lon"}. depart_at: ISO time with offset, or None for now.
+    min_options: when fewer distinct trips come back, search again without the best trip's lines
+    (OTP only returns trips that beat each other on time, transfers or cost)."""
+    t0 = time.perf_counter()
+    answers = _search(origin, dest, depart_at, exclude_routes)
+    best, errors = _merge(answers, origin, dest, prefs)
+    if min_options and 0 < len({line_key(t) for t in best}) < min_options:
+        sets = variety_sets(best[0], exclude_routes)
+        if sets:
+            with ThreadPoolExecutor(len(sets)) as pool:
+                more = list(pool.map(lambda ex: _search(origin, dest, depart_at, ex), sets))
+            usual = best[0]["key"]
+            merged, errors = _merge(answers + [a for m in more for a in m], origin, dest, prefs)
+            # The usual trip (best of the normal search) stays first; the extra trips follow
+            best = sorted(merged, key=lambda t: t["key"] != usual)
     return {"ok": bool(best), "options": best, "errors": errors,
             "ms": round((time.perf_counter() - t0) * 1000)}
 

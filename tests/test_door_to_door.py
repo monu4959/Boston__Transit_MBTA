@@ -372,6 +372,58 @@ def test_keyword_trip_parser(graph):
         (CURRENT, "Fenway Park", ["Kenmore"], 5.0)
 
 
+def test_timetable_patch_adds_downtown_crossing_transfers(tmp_path):
+    """The Red/Orange transfers MBTA's station map lacks are added once, only for stops that exist."""
+    import sys
+    import zipfile
+    sys.path.insert(0, str(os.path.join(os.path.dirname(__file__), "..", "otp")))
+    import setup_otp
+    head = ("pathway_id,from_stop_id,to_stop_id,facility_id,pathway_mode,is_bidirectional,length,"
+            "wheelchair_length,traversal_time,wheelchair_traversal_time,stair_count,max_slope,"
+            "pathway_name,pathway_code,signposted_as,instructions\n")
+    src, dst = tmp_path / "in.zip", tmp_path / "out.zip"
+    with zipfile.ZipFile(src, "w") as z:
+        z.writestr("stops.txt", "stop_id,stop_name\n70077,a\n70078,b\n70020,c\n70021,d\n")
+        z.writestr("pathways.txt", head + "dwnxg-381,node-998-rl,node-998-ol,998,5,0,,,50,,,,x,,,\n")
+        z.writestr("routes.txt", "route_id\nRed\n")
+    setup_otp.patch_gtfs(src, dst)
+    with zipfile.ZipFile(dst) as z:
+        rows = z.read("pathways.txt").decode().splitlines()
+        assert z.read("routes.txt") == b"route_id\nRed\n"
+    added = {tuple(r.split(",")[1:3]) for r in rows if r.startswith("tw-dwnxg-")}
+    assert added == {("70077", "70020"), ("70077", "70021"), ("70078", "70020")}
+    assert len(rows) == 1 + 1 + 3 and all(r.split(",")[4] == "1" for r in rows if r.startswith("tw-"))
+    # Patching an already-patched timetable adds nothing twice
+    setup_otp.patch_gtfs(dst, tmp_path / "again.zip")
+    with zipfile.ZipFile(tmp_path / "again.zip") as z:
+        assert len(z.read("pathways.txt").decode().splitlines()) == 5
+
+
+def test_variety_sets():
+    leg = lambda r: {"transit": True, "route_id": r}
+    trip = {"legs": [{"transit": False}, leg("Red"), leg("Orange"), leg("Red")]}
+    assert otp.variety_sets(trip) == [{"Red", "Orange"}, {"Red"}, {"Orange"}]
+    assert otp.variety_sets({"legs": [leg("Red")]}, ["Blue"]) == [{"Blue", "Red"}]
+    assert otp.variety_sets({"legs": [{"transit": False}]}) == []          # roll only: nothing to leave out
+
+
+def test_variety_search_keeps_the_usual_trip_first(otp_fake):
+    plain = otp.plan_options(place("Harvard Yard"), place("Mass General Hospital"))
+    more = otp.plan_options(place("Harvard Yard"), place("Mass General Hospital"), min_options=6)
+    assert len(plain["options"]) < 6 and any(k.endswith("|Red") for k in otp_fake)
+    assert more["options"][0]["key"] == plain["options"][0]["key"]
+    assert len(more["options"]) > len(plain["options"])
+    assert len({t["key"] for t in more["options"]}) == len(more["options"])
+
+
+def test_up_to_six_options(otp_fake, monkeypatch):
+    monkeypatch.setattr(d2d, "log_trip", lambda *a, **k: None)
+    r = d2d.plan_door_to_door(None, place("Union Square, Somerville"), place("Boston Convention Center"), None, alerts=[], explain=False)
+    shown = [r["trip"], *r["alternatives"]]
+    assert r["ok"] and len(shown) == d2d.MAX_OPTIONS                     # more were recorded
+    assert len({otp.line_key(t) for t in shown}) == len(shown)           # each a different set of lines
+
+
 # ---------- Live (optional) ----------
 
 @pytest.mark.skipif(os.getenv("TW_OTP") != "1", reason="needs the OTP server; set TW_OTP=1")

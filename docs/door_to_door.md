@@ -16,6 +16,16 @@ rider's current location, using rolling, buses, subway, Commuter Rail and ferrie
 | 6. Explain | Claude explanation with policy citations and the same guardrails as station to station | `agents/door_to_door.py` |
 | 7. Watch | Live times of each remaining leg, missed connections, cancelled trips, new alerts, replanning from where the rider is | `agents/monitor.py` (`check_door_watch`) |
 
+The website shows up to 6 trips (the recommended one plus 5 alternatives), each a different
+combination of lines, so the rider can pick. OTP only returns trips that beat each other on time,
+transfers or cost, so when fewer than 6 come back the planner searches again without the best
+trip's lines (all of them, then each one), in parallel (`otp.variety_sets`). The usual trip
+stays first.
+
+OTP pre-computes transfers between stops when it builds the graph. `otp/build-config.json` asks
+for a wheelchair set as well as a walking one. Without it, OTP keeps only the shortest walking
+path between two platforms (often stairs) and wheelchair trips lose that transfer.
+
 OpenTripPlanner reads MBTA's timetable (including in-station elevator paths and planned shuttle
 buses), MBTA's live trip updates, and OpenStreetMap sidewalks. It does not know about broken
 elevators, which is why every trip goes through the Checker.
@@ -69,4 +79,8 @@ times; 0.27 s median per trip (without the LLM explanation).
 - The map covers the MBTA bus and subway area; far Commuter Rail ends are outside it.
 - OTP cannot leave out a single stop, only a whole route, so some reroutes are longer than needed.
 - OTP doesn't allow getting off at Revere Beach in wheelchair mode (cause not yet found).
+- Downtown Crossing: MBTA's station map has no step-free path from the Red Line Ashmont/Braintree
+  platform to either Orange Line platform, or from Red Line Alewife to Orange Line Forest Hills.
+  `otp/extra_pathways.csv` adds those three transfers (5 min each), and every build applies them.
+  This is our assumption, not MBTA data.
 - 480 bus stops have unknown accessibility in MBTA data; OTP's wheelchair mode decides how to treat them.

@@ -58,9 +58,40 @@ def clip():
         env={**os.environ, "MSYS_NO_PATHCONV": "1"})
 
 
+def patch_gtfs(src, dst):
+    """Copy the MBTA timetable, adding the transfers in extra_pathways.csv.
+
+    MBTA's station map has no step-free path between the Red Line Ashmont/Braintree platform and
+    either Orange Line platform at Downtown Crossing, nor between Red Line Alewife and Orange Line
+    Forest Hills. We treat those transfers as working (5 min each way)."""
+    import csv
+    import io
+    import zipfile
+    with open(HERE / "extra_pathways.csv", newline="", encoding="utf-8") as f:
+        extra = list(csv.DictReader(f))
+    with zipfile.ZipFile(src) as zin, zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as zout:
+        for item in zin.infolist():
+            data = zin.read(item)
+            if item.filename == "pathways.txt":
+                text = data.decode("utf-8-sig")
+                rows = list(csv.DictReader(io.StringIO(text)))
+                have = {r["pathway_id"] for r in rows}
+                stops = {r["stop_id"] for r in csv.DictReader(io.StringIO(zin.read("stops.txt").decode("utf-8-sig")))}
+                add = [r for r in extra if r["pathway_id"] not in have
+                       and r["from_stop_id"] in stops and r["to_stop_id"] in stops]
+                out = io.StringIO()
+                w = csv.DictWriter(out, fieldnames=list(rows[0].keys()), lineterminator="\n")
+                w.writeheader()
+                w.writerows(rows)
+                w.writerows({k: r.get(k, "") for k in rows[0].keys()} for r in add)
+                data = out.getvalue().encode("utf-8")
+                print(f"added {len(add)} extra pathways", flush=True)
+            zout.writestr(item, data)
+
+
 def build():
     DATA.mkdir(parents=True, exist_ok=True)
-    shutil.copy(DOWNLOAD / "MBTA_GTFS.zip", DATA / "mbta-gtfs.zip")
+    patch_gtfs(DOWNLOAD / "MBTA_GTFS.zip", DATA / "mbta-gtfs.zip")
     for name in ("build-config.json", "router-config.json"):
         shutil.copy(HERE / name, DATA / name)
     run(["docker", "run", "--rm", "-e", "JAVA_TOOL_OPTIONS=-Xmx6g",

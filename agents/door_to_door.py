@@ -14,6 +14,7 @@ RIDE = ("The RIDE, the MBTA's door-to-door paratransit service, may be an option
         "eligible (mbta.com/accessibility/the-ride). ")
 ICONS = {"ROLL": "♿", "BUS": "🚌", "SUBWAY": "🚇", "TRAM": "🚊", "RAIL": "🚆", "FERRY": "⛴️"}
 SLOWER_MIN = 15    # look further when the best safe option is this much slower than the usual trip
+MAX_OPTIONS = 6    # trip cards shown: the recommended trip plus up to 5 alternatives
 
 
 def clock(iso):
@@ -71,6 +72,16 @@ def fallback_explanation(problems, trip):
 
 def _avoid_hits(trip, avoid_ids):
     return [s for s in otp.stations_used(trip) if s in avoid_ids]
+
+
+def distinct_lines(trips):
+    """One trip per sequence of lines (the same buses from a stop a block away aren't a new choice)."""
+    seen, out = set(), []
+    for t in trips:
+        if otp.line_key(t) not in seen:
+            seen.add(otp.line_key(t))
+            out.append(t)
+    return out
 
 
 def exclusion_sets(problems):
@@ -179,7 +190,7 @@ def _plan(conn, origin, dest, mbta_key, depart_at=None, prefs=None, avoid_ids=()
     guardrails = []
     base = {"origin": origin, "dest": dest, "depart_at": depart_at, "prefs": prefs}
     try:
-        found = otp.plan_options(origin, dest, depart_at, prefs)
+        found = otp.plan_options(origin, dest, depart_at, prefs, min_options=MAX_OPTIONS)
     except otp.OTPUnavailable as e:
         return {**base, "ok": False, "reason": str(e), "guardrails": ["planner_unavailable"]}
     if not found["ok"]:
@@ -214,7 +225,8 @@ def _plan(conn, origin, dest, mbta_key, depart_at=None, prefs=None, avoid_ids=()
 
     if usual_check["safe"]:
         result.update(changed=False, trip=usual, problems=[], warnings=usual_check["warnings"],
-                      alternatives=[t for t, c in checks[1:] if c["safe"]][:2], sources=[],
+                      alternatives=distinct_lines([usual] + [t for t, c in checks[1:] if c["safe"]])[1:MAX_OPTIONS],
+                      sources=[],
                       explanation="Your trip is clear. No elevator outages, stop changes or service "
                                   "problems affect it right now.")
         return result
@@ -244,7 +256,7 @@ def _plan(conn, origin, dest, mbta_key, depart_at=None, prefs=None, avoid_ids=()
     trip = safe[0] if safe else None
     explanation, sources, claim_issues = _explain(conn, usual, problems, trip, guardrails, explain)
     result.update(changed=True, trip=trip, problems=problems,
-                  warnings=trip["check"]["warnings"] if trip else [], alternatives=safe[1:3],
+                  warnings=trip["check"]["warnings"] if trip else [], alternatives=distinct_lines(safe)[1:MAX_OPTIONS],
                   explanation=explanation, sources=sources, claim_issues=claim_issues)
     return result
 
