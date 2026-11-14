@@ -67,3 +67,30 @@ def live(monkeypatch, alerts):
 
 def find(alerts, alert_id):
     return next(a for a in alerts if a["id"] == alert_id)
+
+
+# ---------- door-to-door: recorded OpenTripPlanner answers (tests/make_otp_fixtures.py) ----------
+
+with open(os.path.join(FIXTURES, "otp_trips.json"), encoding="utf-8") as f:
+    OTP_FIXTURE = json.load(f)
+
+
+def place(name):
+    lat, lon = OTP_FIXTURE["places"][name]
+    return {"name": name, "lat": lat, "lon": lon}
+
+
+@pytest.fixture
+def otp_fake(monkeypatch):
+    """OTP answers come from the recording; searches that weren't recorded return nothing.
+    Counts searches so tests can check the Replanner's follow-ups."""
+    import agents.otp as otp
+    calls = []
+
+    def query(origin, dest, depart_at=None, profile=otp.PROFILES[0], exclude_routes=(), n=5):
+        k = f"{origin['name']}|{dest['name']}|{profile['name']}|{','.join(sorted(exclude_routes))}"
+        calls.append(k)
+        a = OTP_FIXTURE["answers"].get(k, {"itineraries": [], "errors": []})
+        return copy.deepcopy(a["itineraries"]), a["errors"]
+    monkeypatch.setattr(otp, "query_itineraries", query)
+    return calls

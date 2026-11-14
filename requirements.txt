@@ -9,3 +9,6 @@ openai
 streamlit
 mcp<2
 pytest
+streamlit-js-eval==1.0.0
+fastapi
+uvicorn

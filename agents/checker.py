@@ -196,3 +196,164 @@ def checker_agent(plan, mbta_key, alerts=None):
     blocking = [p for p in issues if p["blocks"]]
     return {"ok": True, "safe": len(blocking) == 0,
             "blocking": blocking, "all_issues": issues}
+
+
+# ---------- Door-to-door trips (roll + bus + train legs from agents/otp.py) ----------
+
+# Bus/train service problems that matter when they touch the stops a rider uses
+STOP_EFFECTS = {"STOP_CLOSURE", "STATION_CLOSURE", "STOP_MOVE", "DETOUR", "STOP_MOVED"}
+NO_SERVICE_EFFECTS = {"SUSPENSION", "SHUTTLE", "NO_SERVICE", "CANCELLATION"}
+ROLE_WORDS = {"board": "where you board", "exit": "where you get off", "transfer": "where you change"}
+
+
+def _line_of(route_id):
+    """MBTA route id -> the LINE_WORDS key used by the text check ('Other' for bus, CR, ferry)."""
+    base = (route_id or "").split("-")[0]
+    return base if base in LINE_WORDS and base != "Other" else "Other"
+
+
+def _points(trip):
+    """Every place the rider boards, gets off or changes, with the platform/stop used."""
+    transit = [l for l in trip["legs"] if l["transit"]]
+    points = []
+    for i, leg in enumerate(transit):
+        for end, role in (("from", "board" if i == 0 else "transfer"),
+                          ("to", "exit" if i == len(transit) - 1 else "transfer")):
+            p = leg[end]
+            points.append({"stop_id": p["stop_id"], "station_id": p["station_id"] or p["stop_id"],
+                           "name": p["station_name"] or p["name"], "role": role,
+                           "route_id": leg["route_id"], "leg": leg})
+    return points
+
+
+def _transfer_link(station_id, stops_here, closed_elevators):
+    """A working elevator straight between the two platforms of a transfer (station graph data)."""
+    from agents import planner
+    if planner._cache is None or len(stops_here) < 2:
+        return None
+    G = planner._cache[0]
+    if "platform_names" not in G.graph:
+        return None
+    links = planner._transfer_elevators(G, station_id, [stops_here[0]], [stops_here[1]])
+    working = [e for e in links if e["facility_id"] not in closed_elevators]
+    return working[0] if working else None
+
+
+def _point_verdict(alert, point, stops_here):
+    """Does an elevator/escalator alert at this station affect the platform or stop used here?"""
+    stops = _stops(alert)
+    platform_stops = {s for s in stops if _is_platform(s)}
+    if set(stops_here) & platform_stops:
+        return True, "platform"
+    parents = {s for s in stops if s.startswith("place-")}
+    if platform_stops and parents <= {point["station_id"]}:
+        return False, "platform"
+    lines = sorted({_line_of(r) for r in point["routes_here"]})
+    return serves_rider(alert["attributes"]["header"], lines, point["name"]), "text"
+
+
+def _matches_leg(entity, leg):
+    if entity.get("trip") and entity["trip"] != leg["trip_id"]:
+        return False
+    return entity.get("route") == leg["route_id"]
+
+
+def check_door_trip(trip, alerts, prefs=None):
+    """Check a door-to-door trip against live alerts.
+    Blocking: an elevator out at a platform/stop the rider uses (boarding, getting off or
+    changing), no service on a stretch the rider rides, or a closed/moved/detoured stop where the
+    rider boards or gets off. Warnings (shown, not blocking): detours elsewhere on the route,
+    escalators, and rolls longer than the rider's limit."""
+    from agents.otp import DEFAULT_PREFS
+    p = {**DEFAULT_PREFS, **(prefs or {})}
+    issues = []
+    closed_elevators = {e.get("facility") for a in alerts
+                        if a["attributes"]["effect"] == "ELEVATOR_CLOSURE"
+                        for e in a["attributes"].get("informed_entity", []) if e.get("facility")}
+
+    # Group the points by station: a transfer uses two platforms in one station
+    stations = {}
+    for pt in _points(trip):
+        s = stations.setdefault((pt["station_id"], pt["role"] if pt["role"] != "transfer" else "transfer"),
+                                {**pt, "stops_here": [], "routes_here": []})
+        s["stops_here"].append(pt["stop_id"])
+        s["routes_here"].append(pt["route_id"])
+
+    # 1. Elevators and escalators where the rider boards, gets off or changes
+    for alert in access_alerts(alerts):
+        attrs = alert["attributes"]
+        stops = _stops(alert)
+        for (sid, role), pt in stations.items():
+            if sid not in stops and not set(pt["stops_here"]) & stops:
+                continue
+            affects, basis = _point_verdict(alert, pt, pt["stops_here"])
+            # The route(s) whose platform the alert names: what a reroute should leave out
+            fault = [r for s, r in zip(pt["stops_here"], pt["routes_here"]) if s in stops]
+            issue = {"kind": "access", "station_id": sid, "station": pt["name"], "role": role,
+                     "lines": sorted(set(pt["routes_here"])), "effect": attrs["effect"],
+                     "fault_routes": sorted(set(fault or pt["routes_here"])),
+                     "alert": attrs["header"], "alert_id": alert["id"], "basis": basis,
+                     "serves_your_line": affects}
+            if role == "transfer" and affects:
+                link = _transfer_link(sid, pt["stops_here"], closed_elevators)
+                if link:
+                    issue["serves_your_line"] = False
+                    issue["note"] = f"Use {link['name']} to change platforms"
+            issue["blocks"] = attrs["effect"] != "ESCALATOR_CLOSURE" and issue["serves_your_line"]
+            issues.append(issue)
+
+    # 2. Service changes on the buses and trains the rider takes
+    for i, leg in enumerate(l for l in trip["legs"] if l["transit"]):
+        # each stop ridden through, as {platform/stop id, station id}: alerts may use either
+        ridden = [{s["stop_id"], s["station_id"]} - {None} for s in leg["stops"]] or \
+                 [{leg[e]["stop_id"], leg[e]["station_id"]} - {None} for e in ("from", "to")]
+        ends = {leg["from"]["stop_id"], leg["from"]["station_id"], leg["to"]["stop_id"], leg["to"]["station_id"]} - {None}
+        for alert in alerts:
+            attrs = alert["attributes"]
+            effect = attrs.get("effect")
+            if effect not in STOP_EFFECTS | NO_SERVICE_EFFECTS:
+                continue
+            ents = [e for e in attrs.get("informed_entity", []) if _matches_leg(e, leg)]
+            if not ents:
+                continue
+            alert_stops = {e["stop"] for e in ents if e.get("stop")}
+            whole_route = any(not e.get("stop") for e in ents)
+            at_ends = alert_stops & ends
+            base = {"kind": "service", "lines": [leg["route_id"]], "effect": effect,
+                    "alert": attrs["header"], "alert_id": alert["id"], "serves_your_line": True,
+                    "leg": i}
+            if effect in NO_SERVICE_EFFECTS:
+                pairs = [(a, b) for a, b in zip(ridden, ridden[1:])
+                         if a & alert_stops and b & alert_stops]
+                if whole_route or pairs or at_ends:
+                    issues.append({**base, "station_id": leg["from"]["station_id"] or leg["from"]["stop_id"],
+                                   "station": f"{leg['route_name']}: {leg['from']['name']} → {leg['to']['name']}",
+                                   "role": "no service", "blocks": True})
+            elif at_ends:
+                sid = next(iter(at_ends))
+                where = leg["from"] if sid in (leg["from"]["stop_id"], leg["from"]["station_id"]) else leg["to"]
+                issues.append({**base, "station_id": sid, "station": where["name"],
+                               "role": "board" if where is leg["from"] else "exit", "blocks": True,
+                               "note": "The stop may be closed or moved, and the temporary stop "
+                                       "may not be accessible"})
+            elif effect == "DETOUR" and whole_route:
+                issues.append({**base, "station_id": leg["route_id"], "station": leg["route_name"],
+                               "role": "detour", "blocks": False})
+
+    # 3. Rolls longer than the rider wants (a warning: OTP already picked the shortest it could)
+    for leg in trip["legs"]:
+        if leg["mode"] == "ROLL" and leg["minutes"] > p["max_roll_min"]:
+            issues.append({"kind": "rolling", "station_id": None,
+                           "station": f"{leg['from']['name']} → {leg['to']['name']}", "role": "roll",
+                           "lines": [], "effect": "LONG_ROLL", "alert_id": None, "blocks": False,
+                           "serves_your_line": True,
+                           "alert": f"About {round(leg['minutes'])} min of rolling ({leg['meters']} m), "
+                                    f"more than your {round(p['max_roll_min'])}-minute limit."})
+
+    unique = {}
+    for x in issues:
+        unique.setdefault((x["alert_id"], x["station_id"], x["role"], x.get("leg")), x)
+    issues = list(unique.values())
+    blocking = [x for x in issues if x["blocks"]]
+    return {"ok": True, "safe": not blocking, "blocking": blocking,
+            "warnings": [x for x in issues if not x["blocks"]], "all_issues": issues}

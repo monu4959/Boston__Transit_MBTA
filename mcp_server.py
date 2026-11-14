@@ -64,6 +64,39 @@ def get_accessibility_alerts(limit: int = 20) -> list[dict]:
 
 
 @mcp.tool()
+def plan_door_to_door(origin: str, destination: str, depart_at: str | None = None,
+                      max_roll_minutes: float = 10, fewer_transfers: bool = False) -> dict:
+    """Plan a step-free door-to-door trip in the Boston area (rolling + bus + subway + Commuter
+    Rail) with live MBTA times, checked against live elevator outages, stop changes and service
+    problems. origin/destination: an address, place, station name, or "lat, lon".
+    depart_at: ISO time with offset (e.g. 2026-11-14T09:00-05:00); omit to leave now.
+    Needs the OpenTripPlanner server (otp/setup_otp.py)."""
+    from agents import planner
+    from agents.door_to_door import plan_door_to_door as plan, describe_trip
+    from agents.places import resolve_place
+    if planner._cache is None:
+        planner._cache = planner.build_graph(conn())
+    o, d = resolve_place(origin[:200]), resolve_place(destination[:200])
+    for p in (o, d):
+        if not p["ok"]:
+            return {"ok": False, "reason": p["reason"]}
+    prefs = {"max_roll_min": max(2.0, min(float(max_roll_minutes), 30.0)),
+             "transfer_penalty": 15.0 if fewer_transfers else 5.0}
+    r = plan(conn(), o, d, MBTA_KEY, depart_at=depart_at, prefs=prefs, explain=False, log_source="mcp")
+    if not r["ok"]:
+        return {"ok": False, "reason": r["reason"]}
+    issue = lambda p: {"where": p["station"], "role": p["role"], "alert": p["alert"]}
+    return {"ok": True, "from": o["name"], "to": d["name"],
+            "usual_trip_clear": not r["changed"],
+            "problems_on_usual_trip": [issue(p) for p in r["problems"]],
+            "recommended_trip": describe_trip(r["trip"]) if r["trip"] else None,
+            "departs": r["trip"]["departs"] if r["trip"] else None,
+            "arrives": r["trip"]["arrives"] if r["trip"] else None,
+            "warnings": [issue(p) for p in r["warnings"]],
+            "note": None if r["trip"] else r["explanation"]}
+
+
+@mcp.tool()
 def search_mbta_policy(question: str, k: int = 4) -> list[dict]:
     """Search official MBTA accessibility policy documents (max 10 results).
     Returns the most relevant passages with their source files."""

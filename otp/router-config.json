@@ -1,0 +1,10 @@
+{
+  "updaters": [
+    { "type": "stop-time-updater", "frequency": "30s", "feedId": "mbta",
+      "url": "https://cdn.mbta.com/realtime/TripUpdates.pb" },
+    { "type": "vehicle-positions", "frequency": "30s", "feedId": "mbta",
+      "url": "https://cdn.mbta.com/realtime/VehiclePositions.pb" },
+    { "type": "real-time-alerts", "frequency": "60s", "feedId": "mbta",
+      "url": "https://cdn.mbta.com/realtime/Alerts.pb" }
+  ]
+}

@@ -1,0 +1,4 @@
+pathway_id,from_stop_id,to_stop_id,facility_id,pathway_mode,is_bidirectional,length,wheelchair_length,traversal_time,wheelchair_traversal_time,stair_count,max_slope,pathway_name,pathway_code,signposted_as,instructions
+tw-dwnxg-rlsb-olsb,70077,70020,,1,1,250,250,300,300,,,TransitWise: step-free Red Line (Ashmont/Braintree) to Orange Line (Forest Hills) transfer,,,
+tw-dwnxg-rlsb-olnb,70077,70021,,1,1,250,250,300,300,,,TransitWise: step-free Red Line (Ashmont/Braintree) to Orange Line (Oak Grove) transfer,,,
+tw-dwnxg-rlnb-olsb,70078,70020,,1,1,250,250,300,300,,,TransitWise: step-free Red Line (Alewife) to Orange Line (Forest Hills) transfer,,,

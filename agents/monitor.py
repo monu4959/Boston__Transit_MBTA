@@ -1,5 +1,8 @@
 import time
+from datetime import datetime, timezone
+
 from agents import checker as checker_module
+from agents import otp
 from agents.planner import planner_agent
 from agents.checker import checker_agent
 from agents.replanner import replanner_agent, _ids, _route_key
@@ -75,6 +78,131 @@ def check_trip(conn, trip, mbta_key, simulate=False):
                                     checker_agent(better, mbta_key, alerts=alerts)["blocking"]}
 
     trip["history"].append(event)
+    return event
+
+
+# ---------- Door-to-door trips (agents/door_to_door.py) ----------
+
+MIN_CONNECTION_S = 60      # less than this to make a connection = likely missed
+
+
+def _t(iso):
+    return datetime.fromisoformat(iso)
+
+
+def start_door_trip(result):
+    """Start watching the recommended trip from plan_door_to_door()."""
+    trip = result.get("trip")
+    if not result.get("ok") or not trip:
+        return {"ok": False, "reason": result.get("reason", "No step-free trip to monitor")}
+    return {"ok": True, "kind": "door_to_door", "origin": result["origin"], "dest": result["dest"],
+            "prefs": result.get("prefs"), "trip": trip,
+            "known_alerts": {p["alert_id"] for p in trip.get("check", {}).get("blocking", [])},
+            "history": []}
+
+
+def demo_door_outage(trip):
+    """A made-up elevator outage for demos, on the rider's own platform: at the first station
+    (not a street bus stop) where the rider changes, else gets off, else boards."""
+    from agents import planner
+    points = checker_module._points(trip)
+    at_station = [p for p in points if (p["station_id"] or "").startswith("place-")]
+    pt = next((p for role in ("transfer", "exit", "board") for p in at_station if p["role"] == role),
+              next((p for p in points if p["role"] == "transfer"), points[-1]))
+    stops = [p["stop_id"] for p in points if p["station_id"] == pt["station_id"] and p["role"] == pt["role"]]
+    links = []        # close the direct platform-to-platform elevators too
+    if pt["role"] == "transfer" and planner._cache is not None and len(stops) > 1 \
+            and "platform_names" in planner._cache[0].graph:
+        links = planner._transfer_elevators(planner._cache[0], pt["station_id"], stops[:1], stops[1:])
+    return {"id": f"demo-{pt['station_id']}", "attributes": {
+        "effect": "ELEVATOR_CLOSURE",
+        "header": f"(Demo) {pt['name']} elevators to your platforms are unavailable.",
+        "informed_entity": [{"stop": s} for s in [pt["station_id"], *stops]]
+                           + [{"stop": pt["station_id"], "facility": e["facility_id"]} for e in links]}}
+
+
+def connection_risks(trip):
+    """Connections the rider is now likely to miss, from the latest live times."""
+    risks, legs = [], trip["legs"]
+    transit = [i for i, l in enumerate(legs) if l["transit"]]
+    for a, b in zip(transit, transit[1:]):
+        roll_s = sum(legs[k]["minutes"] * 60 for k in range(a + 1, b) if legs[k]["mode"] == "ROLL")
+        slack = (_t(legs[b]["start"]) - _t(legs[a]["end"])).total_seconds() - roll_s
+        if slack < MIN_CONNECTION_S:
+            risks.append({
+                "kind": "timing", "station_id": legs[b]["from"]["station_id"] or legs[b]["from"]["stop_id"],
+                "station": legs[b]["from"]["name"], "role": "transfer", "lines": [legs[b]["route_id"]],
+                "effect": "MISSED_CONNECTION", "blocks": True, "serves_your_line": True,
+                "alert_id": f"timing-{legs[b]['trip_id']}",
+                "alert": (f"Your {legs[a]['route_name']} now arrives {legs[a]['end'][11:16]}, leaving "
+                          f"{max(0, round(slack))} s to reach the {legs[b]['route_name']} "
+                          f"leaving {legs[b]['start'][11:16]}.")})
+    return risks
+
+
+def _refresh(trip, now):
+    """Update live times of legs not finished yet. Returns problems for trips that disappeared."""
+    problems = []
+    for i, leg in enumerate(trip["legs"]):
+        if not leg["transit"] or _t(leg["end"]) < now:
+            continue
+        new = otp.refresh_leg(leg)
+        if new is None:
+            problems.append({"kind": "timing", "station_id": leg["from"]["station_id"] or leg["from"]["stop_id"],
+                             "station": leg["from"]["name"], "role": "board", "lines": [leg["route_id"]],
+                             "effect": "TRIP_NOT_FOUND", "blocks": True, "serves_your_line": True,
+                             "alert_id": f"gone-{leg['trip_id']}",
+                             "alert": f"The {leg['route_name']} you planned to take is no longer in the "
+                                      "live schedule (it may be cancelled)."})
+        else:
+            trip["legs"][i] = new
+    trip["departs"], trip["arrives"] = trip["legs"][0]["start"], trip["legs"][-1]["end"]
+    return problems
+
+
+def _restart_point(watch, now, current):
+    """Where a replan starts: the rider's location if known, else the next leg's start."""
+    if current:
+        return {"name": "Your location", "lat": current[0], "lon": current[1]}
+    trip = watch["trip"]
+    if now < _t(trip["departs"]):
+        return watch["origin"]
+    nxt = next((l for l in trip["legs"] if _t(l["end"]) > now), trip["legs"][-1])
+    return {"name": nxt["from"]["name"], "lat": nxt["from"]["lat"], "lon": nxt["from"]["lon"]}
+
+
+def check_door_watch(conn, watch, mbta_key, simulate=False, now=None, current=None):
+    """Re-check the watched door-to-door trip once: live times (missed connections, cancelled
+    trips) and alerts. On a NEW problem, replan from where the rider is and switch if better."""
+    from agents.door_to_door import plan_door_to_door
+    now = now or datetime.now(timezone.utc).astimezone()
+    trip = watch["trip"]
+    alerts = checker_module.get_live_alerts(mbta_key)
+    if simulate:
+        alerts = alerts + [demo_door_outage(trip)]
+    event = {"time": time.strftime("%H:%M:%S"), "new_problems": [], "resolved": [], "replan": None,
+             "switched_to": None, "live_times": True}
+    try:
+        gone = _refresh(trip, now)
+    except otp.OTPUnavailable:
+        gone, event["live_times"] = [], False
+    check = checker_module.check_door_trip(trip, alerts, watch.get("prefs"))
+    current_ = {p["alert_id"]: p for p in check["blocking"] + gone + connection_risks(trip)}
+    event["new_problems"] = [p for aid, p in current_.items() if aid not in watch["known_alerts"]]
+    event["resolved"] = [aid for aid in watch["known_alerts"] if aid not in current_]
+    watch["known_alerts"] = set(current_)
+
+    if event["new_problems"]:
+        start = _restart_point(watch, now, current)
+        replan = plan_door_to_door(conn, start, watch["dest"], mbta_key, prefs=watch.get("prefs"),
+                                   alerts=alerts, log_source="monitor-d2d")
+        event["replan"] = replan
+        better = replan.get("trip") if replan.get("ok") else None
+        if better and better["key"] != trip["key"]:
+            watch["trip"] = better
+            event["switched_to"] = better
+            watch["known_alerts"] = {p["alert_id"] for p in better["check"]["blocking"]}
+    watch["history"].append(event)
     return event
 
 

@@ -35,11 +35,13 @@ if missing:
 status.info("Loading agents…")
 print("app: importing agents", flush=True)
 from agents.db import get_connection
+from agents import planner
 from agents.planner import build_graph
 from agents.replanner import replanner_agent, LINE_NAMES
 from agents.monitor import start_trip, check_trip
 from agents.request_parser import parse_request, penalty_for
 from agents.retriever import get_model
+import ui_door
 print("app: agents imported", flush=True)
 
 
@@ -55,6 +57,7 @@ def get_conn():
 def get_stations():
     print("app: building graph", flush=True)
     G, names, accessible, lines_at = build_graph(get_conn())
+    planner._cache = (G, names, accessible, lines_at)   # shared with the agents and place search
     step_free = {names[s]: accessible.get(s, False) for s in names}
     print("app: graph ready", flush=True)
     return sorted(step_free), step_free
@@ -108,7 +111,13 @@ def plan_trip(origin, dest, source, transfer_penalty=None, avoid_names=None):
 
 # ---------- trip input ----------
 st.title("♿ TransitWise Boston")
-st.caption("Step-free MBTA subway trips, checked against live elevator outages and service changes")
+st.caption("Step-free MBTA trips, checked against live elevator outages and service changes")
+
+mode = st.radio("Trip type", ["Door to door", "Station to station"], horizontal=True,
+                label_visibility="collapsed")
+if mode == "Door to door":
+    ui_door.render(conn, MBTA_KEY, stations)
+    st.stop()
 
 c1, c2 = st.columns(2)
 origin = c1.selectbox("From", stations, format_func=label,
