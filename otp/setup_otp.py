@@ -6,6 +6,9 @@
 
 Needs Docker. Data (about 400 MB) goes to OTP_DATA_DIR, default ~/transitwise-otp,
 kept outside the project folder so OneDrive/git don't sync it.
+
+Inside the hosted image (deploy/huggingface) OTP_JAR is set: Java and osmium run directly, no
+Docker, and `graph` downloads, clips and builds in one go.
 """
 import os
 import shutil
@@ -22,6 +25,7 @@ PORT = 8080
 GTFS_URL = "https://cdn.mbta.com/MBTA_GTFS.zip"
 OSM_URL = "https://download.geofabrik.de/north-america/us/massachusetts-latest.osm.pbf"
 BBOX = "-71.40,42.05,-70.80,42.60"     # MBTA bus and subway area (west,south,east,north)
+OTP_JAR = os.getenv("OTP_JAR")         # set in the hosted image: run Java directly, not Docker
 
 HERE = Path(__file__).resolve().parent
 ROOT = Path(os.getenv("OTP_DATA_DIR", Path.home() / "transitwise-otp"))
@@ -52,6 +56,11 @@ def download_gtfs():
 
 def clip():
     DATA.mkdir(parents=True, exist_ok=True)
+    if OTP_JAR:
+        run(["osmium", "extract", "-b", BBOX, "--strategy", "complete_ways",
+             str(DOWNLOAD / "massachusetts-latest.osm.pbf"), "-o", str(DATA / "boston-area.osm.pbf"),
+             "--overwrite"])
+        return
     run(["docker", "run", "--rm", "-v", f"{docker_path(ROOT)}:/w", OSMIUM_IMAGE, "extract",
          "-b", BBOX, "--strategy", "complete_ways", "/w/download/massachusetts-latest.osm.pbf",
          "-o", "/w/data/boston-area.osm.pbf", "--overwrite"],
@@ -94,6 +103,9 @@ def build():
     patch_gtfs(DOWNLOAD / "MBTA_GTFS.zip", DATA / "mbta-gtfs.zip")
     for name in ("build-config.json", "router-config.json"):
         shutil.copy(HERE / name, DATA / name)
+    if OTP_JAR:
+        run(["java", f"-Xmx{os.getenv('OTP_BUILD_HEAP', '6g')}", "-jar", OTP_JAR, "--build", "--save", str(DATA)])
+        return
     run(["docker", "run", "--rm", "-e", "JAVA_TOOL_OPTIONS=-Xmx6g",
          "-v", f"{docker_path(DATA)}:/var/opentripplanner", OTP_IMAGE, "--build", "--save"],
         env={**os.environ, "MSYS_NO_PATHCONV": "1"})
@@ -139,6 +151,7 @@ STEPS = {
     "download": [download], "clip": [clip], "build": [build], "serve": [serve], "stop": [stop],
     "status": [status], "all": [download, clip, build, serve],
     "refresh": [download_gtfs, build, serve],
+    "graph": [download, clip, build],
 }
 
 if __name__ == "__main__":

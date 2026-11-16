@@ -1,0 +1,24 @@
+name: Refresh the Hugging Face Space
+
+# MBTA publishes a new timetable most weeks. This makes the Space rebuild its routing graph
+# with fresh data. Needs two repository settings:
+#   secret   HF_TOKEN  (a Hugging Face token that can write to the Space)
+#   variable HF_SPACE  (for example USER/transitwise)
+on:
+  schedule:
+    - cron: "0 8 * * 1"      # Mondays 08:00 UTC
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    if: ${{ vars.HF_SPACE != '' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install huggingface_hub
+      - run: python deploy/huggingface/push_space.py "${{ vars.HF_SPACE }}" --refresh
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}

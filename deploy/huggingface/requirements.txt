@@ -1,0 +1,13 @@
+# What the hosted website needs. No Streamlit, notebooks or embedding model: without Snowflake
+# the policy search is off, and explanations use the data-only text.
+requests
+python-dotenv
+networkx
+pandas
+numpy
+fastapi
+uvicorn
+anthropic
+snowflake-connector-python[pandas]
+# tests/conftest.py (the offline station snapshot) imports pytest
+pytest

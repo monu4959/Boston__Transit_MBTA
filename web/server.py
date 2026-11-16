@@ -226,6 +226,8 @@ def monitor_start(req: WatchRequest):
         return watch
     wid = uuid.uuid4().hex[:12]
     WATCHES[wid] = watch
+    while len(WATCHES) > 200:
+        WATCHES.pop(next(iter(WATCHES)))
     return {"ok": True, "watch_id": wid}
 
 

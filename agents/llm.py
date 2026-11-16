@@ -1,4 +1,5 @@
 import os
+import sys
 from getpass import getpass
 from dotenv import load_dotenv
 
@@ -10,8 +11,13 @@ _key = None
 
 def _get_key():
     global _key
-    if _key is None:
-        _key = os.getenv("LLM_API_KEY") or getpass(f"{PROVIDER} API key: ")
+    if not _key:
+        key = (os.getenv("LLM_API_KEY") or "").strip()
+        if not key:
+            if not (sys.stdin and sys.stdin.isatty()):   # a server: never wait for typed input
+                raise RuntimeError("LLM_API_KEY is not set")
+            key = getpass(f"{PROVIDER} API key: ")
+        _key = key
     return _key
 
 

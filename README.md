@@ -2,6 +2,22 @@
 
 **Step-free, door-to-door trip planning for wheelchair users on the MBTA.**
 
+## Demo
+
+[![TransitWise demo: plan a step-free trip, compare six options, and reroute around an elevator outage](docs/demo/preview.gif)](docs/demo/transitwise_demo.mp4)
+
+**[▶ Watch the full 2-minute demo video](docs/demo/transitwise_demo.mp4)** (the preview above
+runs at 3× speed). It's a real run with live MBTA data:
+
+1. Harvard → Back Bay: six step-free choices (Red + Orange, bus 109 + Orange, Red + Green
+   branches), each checked against live alerts and showing live arrival times.
+2. Live monitoring, then a simulated outage of the Park Street elevators: the trip switches to
+   bus 109 + Orange Line, avoiding Park Street.
+3. A typed request, "from Northeastern University to Airport station, fewer transfers",
+   planned as Green Line E + Blue Line.
+
+## Overview
+
 Type a start and a destination (an address, a place, a station, or your current location).
 TransitWise finds trips that combine rolling, buses, subway, Commuter Rail and ferries, using
 only step-free paths. It checks every leg against live MBTA elevator and service alerts and
@@ -139,6 +155,24 @@ python -m uvicorn web.server:app --port 8000
 
 Open http://localhost:8000. "Use my location" works on localhost or over HTTPS.
 
+### 5. Host it (optional)
+
+`deploy/huggingface/` runs OpenTripPlanner and the website in one Docker container: the image
+build downloads the MBTA timetable and OpenStreetMap data and builds the routing graph, and
+`start.sh` starts both servers. It runs without Snowflake or an LLM key (data-only
+explanations).
+
+```bash
+hf auth login
+python deploy/huggingface/push_space.py USER/transitwise                 # create the Space and upload
+python deploy/huggingface/push_space.py USER/transitwise --set-mbta-key  # also store MBTA_KEY as a Space secret
+```
+
+Docker Spaces need a Hugging Face PRO plan. The same Dockerfile runs on any server with about
+8 GB of memory (for example Oracle Cloud's Always Free tier). `.github/workflows/refresh_space.yml`
+rebuilds the Space weekly with the new timetable once the `HF_TOKEN` secret and `HF_SPACE`
+variable are set.
+
 ## Tests
 
 ```bash
@@ -164,7 +198,8 @@ pipeline/    Snowflake database build and the 30-minute alert loader
 sql/         Snowflake setup and CLEAN views
 policy_docs/ MBTA accessibility and shuttle policy PDFs (indexed for search)
 tests/       offline tests and recorded fixtures
-docs/        data model, door-to-door details, screenshots
+docs/        data model, door-to-door details, screenshots, demo video
+deploy/      Docker image and upload script for hosting (Hugging Face Spaces)
 app.py       earlier Streamlit app (station to station and door to door)
 ```
 
