@@ -6,8 +6,8 @@
 
 [![TransitWise demo: plan a step-free trip, compare six options, and reroute around an elevator outage](docs/demo/preview.gif)](docs/demo/transitwise_demo.mp4)
 
-**[▶ Watch the full 2-minute demo video](docs/demo/transitwise_demo.mp4)** (the preview above
-runs at 3× speed). It's a real run with live MBTA data:
+**[▶ Download the full 2-minute demo video (MP4, 7 MB)](https://github.com/monu4959/Boston__Transit_MBTA/raw/main/docs/demo/transitwise_demo.mp4)**
+(the preview above runs at 3× speed). It's a real run with live MBTA data:
 
 1. Harvard → Back Bay: six step-free choices (Red + Orange, bus 109 + Orange, Red + Green
    branches), each checked against live alerts and showing live arrival times.
