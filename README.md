@@ -4,9 +4,6 @@
 
 ## Demo
 
-[![TransitWise demo: plan a step-free trip, compare six options, and reroute around an elevator outage](docs/demo/preview.gif)](docs/demo/transitwise_demo.mp4)
-
-
 https://github.com/user-attachments/assets/d64dbf3b-cc1e-43f8-a779-6677b55f042f
 
 
