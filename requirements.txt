@@ -1,14 +1,23 @@
-snowflake-connector-python[pandas]
+# Planning, checking and the website
 requests
 python-dotenv
 networkx
-pypdf
-sentence-transformers
-anthropic
-openai
-streamlit
-mcp<2
-pytest
-streamlit-js-eval==1.0.0
 fastapi
 uvicorn
+
+# Snowflake (database, alert pipeline, trip logs)
+snowflake-connector-python[pandas]
+
+# Policy search and plain-English explanations
+sentence-transformers
+pypdf
+anthropic
+openai           # only if agents/llm.py is switched to PROVIDER = "openai"
+
+# MCP server and the older Streamlit app
+mcp<2
+streamlit
+streamlit-js-eval==1.0.0
+
+# Tests
+pytest

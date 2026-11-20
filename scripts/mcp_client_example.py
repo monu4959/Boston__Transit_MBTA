@@ -1,9 +1,11 @@
+"""Call the TransitWise MCP server as a client would:  py -3.12 scripts/mcp_client_example.py"""
 import asyncio
 import sys
+from pathlib import Path
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
-server = StdioServerParameters(command=sys.executable, args=["mcp_server.py"])
+server = StdioServerParameters(command=sys.executable, args=[str(Path(__file__).resolve().parents[1] / "mcp_server.py")])
 
 
 async def main():

@@ -224,3 +224,6 @@ venv/
 # Snowflake private keys
 *.p8
 *.pem
+
+# macOS
+.DS_Store

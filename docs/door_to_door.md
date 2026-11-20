@@ -49,7 +49,7 @@ and a static page (`web/static/`) with a MapLibre dark map. API:
 | `POST /api/parse` | Natural-language request → places and preferences |
 | `POST /api/monitor/start`, `POST /api/monitor/{id}/check` | Live monitoring (the page checks every 2 minutes) |
 
-The older Streamlit app (`app.py`) still works but is no longer the main interface.
+The older Streamlit app (`streamlit_app/app.py`) still works but is no longer the main interface.
 
 Data lives in `OTP_DATA_DIR` (default `~/transitwise-otp`, outside OneDrive). The app finds OTP at
 `OTP_URL` (default `http://localhost:8080/otp/gtfs/v1`). "Use my current location" needs
@@ -66,10 +66,11 @@ TW_OTP=1 py -3.12 -m pytest tests             # also hits the live OTP server
 py -3.12 otp/sweep_door_to_door.py 300        # random trips with today's live data
 ```
 
-Sweep on 2026-11-13 (300 random trips, 2–12 km, live alerts): a step-free trip for 100%; 5% of usual
-trips hit a live problem (13 elevator outages, 3 suspensions) and all 16 were rerouted; median
-58 min, 13 min rolling, 2 transfers; 68% within the 10/20-minute rolling limits; 96% use live
-times; 0.27 s median per trip (without the LLM explanation).
+Sweep on 2026-11-20 (300 random trips, 2–12 km, live alerts): a step-free trip for 100%; 16% of
+usual trips hit a live problem (mostly shuttle buses replacing trains, plus 11 elevator closures
+and 1 moved stop) and all 48 were rerouted; median 56 min, 12.5 min rolling, 2 transfers; 82%
+within the 10/20-minute rolling limits; 90% use live times; 0.57 s median per trip, 1.6 s 95th
+percentile (without the LLM explanation; the variety searches for six options add to the time).
 
 ## Known limits
 

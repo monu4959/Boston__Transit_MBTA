@@ -82,20 +82,21 @@ flowchart LR
 | Watch | Live times, missed connections, new alerts, replanning | `agents/monitor.py` |
 
 More detail: [docs/door_to_door.md](docs/door_to_door.md) (planning, API, evaluation),
-[docs/README.md](docs/README.md) (Snowflake data model) and [architecture.md](architecture.md).
+[docs/README.md](docs/README.md) (Snowflake data model) and
+[docs/architecture.md](docs/architecture.md) (full system and data architecture).
 
 ## Results
 
-A sweep of 300 random trips (2–12 km) with live data on 2026-11-13, measured before the
-wheelchair-transfer fix:
+A sweep of 300 random trips (2–12 km) with live MBTA data on 2026-11-20:
 
 | Measure | Result |
 |---|---|
-| Trips with a step-free option | 100% |
-| Usual trips hit by a live problem | 5% (13 elevator outages, 3 suspensions); all rerouted |
-| Median trip | 58 min, 13 min rolling, 2 transfers |
-| Using live (not scheduled) times | 96% |
-| Planning time | 0.27 s median (without the LLM explanation) |
+| Trips with a step-free option | 100% (300/300) |
+| Usual trips hit by a live problem | 16% (48 trips: shuttle buses replacing trains, 11 elevator closures, 1 moved stop); all rerouted |
+| Median trip | 56 min, 12.5 min rolling, 2 transfers |
+| Within the rider's rolling limits (10 min at a time, 20 min total) | 82% |
+| Using live (not scheduled) times | 90% |
+| Planning time | 0.57 s median, 1.6 s 95th percentile (without the LLM explanation) |
 
 ## Tech stack
 
@@ -188,7 +189,7 @@ python otp/sweep_door_to_door.py 300    # evaluate 300 random trips on today's l
 
 `mcp_server.py` exposes the agents as tools for MCP clients such as Claude Desktop:
 `plan_door_to_door`, `plan_route`, `check_route`, `get_accessibility_alerts`, and
-`search_mbta_policy`.
+`search_mbta_policy`. `scripts/mcp_client_example.py` calls it the way a client would.
 
 ## Project layout
 
@@ -200,9 +201,12 @@ pipeline/    Snowflake database build and the 30-minute alert loader
 sql/         Snowflake setup and CLEAN views
 policy_docs/ MBTA accessibility and shuttle policy PDFs (indexed for search)
 tests/       offline tests and recorded fixtures
-docs/        data model, door-to-door details, screenshots, demo video
+docs/        architecture, data model, door-to-door details, screenshots, demo video
 deploy/      Docker image and upload script for hosting (Hugging Face Spaces)
-app.py       earlier Streamlit app (station to station and door to door)
+notebooks/   data exploration, RAG setup, planner experiments, evaluation
+scripts/     example MCP client
+streamlit_app/  earlier Streamlit app (station to station and door to door)
+mcp_server.py   MCP server exposing the agents as tools
 ```
 
 ## Known limits
@@ -223,6 +227,10 @@ app.py       earlier Streamlit app (station to station and door to door)
 - Map data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors; basemap
   © [CARTO](https://carto.com/attributions).
 - Routing: [OpenTripPlanner](https://github.com/opentripplanner/OpenTripPlanner).
+
+## Author
+
+Designed and built by **Rohan Kolla** ([GitHub](https://github.com/monu4959)).
 
 > **Before you travel**, confirm elevator status at
 > [mbta.com/alerts/access](https://www.mbta.com/alerts/access). If no step-free trip works,

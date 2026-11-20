@@ -1,4 +1,6 @@
 import os
+import sys
+
 import streamlit as st
 from dotenv import load_dotenv
 
@@ -34,6 +36,8 @@ if missing:
 # ---------- load agents ----------
 status.info("Loading agents…")
 print("app: importing agents", flush=True)
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from agents.db import get_connection
 from agents import planner
 from agents.planner import build_graph
@@ -222,4 +226,4 @@ if r:
                         st.success(f"{ev['time']}: an outage on your route was resolved.")
                     else:
                         st.info(f"{ev['time']}: no new problems on your route.")
-# py -3.12 -m streamlit run app.py
+# py -3.12 -m streamlit run streamlit_app/app.py

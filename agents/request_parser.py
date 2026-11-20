@@ -8,12 +8,12 @@ import numpy as np
 from agents.llm import ask_llm
 from agents.retriever import embed
 
-THRESHOLD = 0.6            # paper's activation threshold T
-K_EXAMPLES = 5             # paper retrieves the top-5 most similar examples
+THRESHOLD = 0.6            # fewer_transfers score at which the preference switches on
+K_EXAMPLES = 5             # labeled examples retrieved into each prompt
 DEFAULT_TRANSFER_MIN = 5.0
 FEWER_TRANSFERS_MIN = 15.0
 
-# ---------- Node 2: map rider wording to official station names ----------
+# ---------- Map rider wording to official station names ----------
 ALIASES = {
     "dtx": "downtown crossing", "downtown": "downtown crossing",
     "kendall": "kendall/mit", "mit": "kendall/mit", "mgh": "charles/mgh",
@@ -107,7 +107,7 @@ def retrieve_examples(text, k=K_EXAMPLES):
     return [EXAMPLES[i] for i in np.argsort(-sims)[:k]]
 
 
-# ---------- Node 1: LLM parses the request into JSON ----------
+# ---------- LLM parses the request into JSON ----------
 def build_prompt(text, examples):
     shots = "\n\n".join(f"Request: {t}\nJSON: {json.dumps(y)}" for t, y in examples)
     return f"""You convert MBTA subway trip requests into JSON. Do not plan a route.
@@ -188,7 +188,7 @@ def keyword_parse(text, station_names):
     return _finish(raw, station_names, t0, "keyword")
 
 
-# ---------- Node 3: preference -> routing objective ----------
+# ---------- Preference -> routing objective ----------
 def penalty_for(parsed):
     return FEWER_TRANSFERS_MIN if parsed["fewer_transfers"] >= THRESHOLD else DEFAULT_TRANSFER_MIN
 
