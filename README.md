@@ -1,5 +1,10 @@
 # TransitWise Boston
 
+[![Tests](https://github.com/monu4959/Boston__Transit_MBTA/actions/workflows/tests.yml/badge.svg)](https://github.com/monu4959/Boston__Transit_MBTA/actions/workflows/tests.yml)
+[![Alert pipeline](https://github.com/monu4959/Boston__Transit_MBTA/actions/workflows/load_alerts.yml/badge.svg)](https://github.com/monu4959/Boston__Transit_MBTA/actions/workflows/load_alerts.yml)
+![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+
 **Step-free, door-to-door trip planning for wheelchair users on the MBTA.**
 
 ## Demo
@@ -178,6 +183,8 @@ variable are set.
 
 ## Tests
 
+These also run on GitHub Actions on every push (`.github/workflows/tests.yml`).
+
 ```bash
 python -m pytest tests                  # offline: recorded OTP answers + real alerts, no API calls
 TW_OTP=1 python -m pytest tests         # also hits the running OTP server
@@ -231,6 +238,7 @@ mcp_server.py   MCP server exposing the agents as tools
 ## Author
 
 Designed and built by **Rohan Kolla** ([GitHub](https://github.com/monu4959)).
+Released under the [MIT License](LICENSE).
 
 > **Before you travel**, confirm elevator status at
 > [mbta.com/alerts/access](https://www.mbta.com/alerts/access). If no step-free trip works,

@@ -1,0 +1,9 @@
+# What the offline test suite needs (no embedding model, no Streamlit, no MCP)
+requests
+python-dotenv
+networkx
+pandas
+snowflake-connector-python[pandas]
+pypdf
+anthropic
+pytest
