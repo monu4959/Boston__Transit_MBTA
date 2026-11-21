@@ -16,7 +16,7 @@ Step-free, door-to-door trip planning for wheelchair users on the MBTA. Trips co
 buses, subway, Commuter Rail and ferries, and every leg is checked against live MBTA elevator
 and service alerts.
 
-Code, docs and setup: https://github.com/monu4959/Boston__Transit_MBTA
+Code, docs and setup: https://github.com/monu4959/transitwise-boston
 
 This Space runs OpenTripPlanner and the website in one container. It sleeps after two days
 without visitors; the first visit after that takes a few minutes while it wakes up.

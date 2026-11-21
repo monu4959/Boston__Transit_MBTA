@@ -1,7 +1,7 @@
 # TransitWise Boston
 
-[![Tests](https://github.com/monu4959/Boston__Transit_MBTA/actions/workflows/tests.yml/badge.svg)](https://github.com/monu4959/Boston__Transit_MBTA/actions/workflows/tests.yml)
-[![Alert pipeline](https://github.com/monu4959/Boston__Transit_MBTA/actions/workflows/load_alerts.yml/badge.svg)](https://github.com/monu4959/Boston__Transit_MBTA/actions/workflows/load_alerts.yml)
+[![Tests](https://github.com/monu4959/transitwise-boston/actions/workflows/tests.yml/badge.svg)](https://github.com/monu4959/transitwise-boston/actions/workflows/tests.yml)
+[![Alert pipeline](https://github.com/monu4959/transitwise-boston/actions/workflows/load_alerts.yml/badge.svg)](https://github.com/monu4959/transitwise-boston/actions/workflows/load_alerts.yml)
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -13,7 +13,7 @@ https://github.com/user-attachments/assets/d64dbf3b-cc1e-43f8-a779-6677b55f042f
 
 
 
-**[▶ Download the full 2-minute demo video (MP4, 7 MB)](https://github.com/monu4959/Boston__Transit_MBTA/raw/main/docs/demo/transitwise_demo.mp4)**
+**[▶ Download the full 2-minute demo video (MP4, 7 MB)](https://github.com/monu4959/transitwise-boston/raw/main/docs/demo/transitwise_demo.mp4)**
 It's a real run with live MBTA data:
 
 1. Harvard → Back Bay: six step-free choices (Red + Orange, bus 109 + Orange, Red + Green
@@ -129,8 +129,8 @@ A sweep of 300 random trips (2–12 km) with live MBTA data on 2026-11-20:
 ### 1. Install
 
 ```bash
-git clone https://github.com/monu4959/Boston__Transit_MBTA.git
-cd Boston__Transit_MBTA
+git clone https://github.com/monu4959/transitwise-boston.git
+cd transitwise-boston
 python -m pip install -r requirements.txt
 cp .env.example .env        # then fill in your keys
 ```
